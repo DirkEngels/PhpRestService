@@ -1,0 +1,28 @@
+PhpRestService
+==============
+
+* Introduction
+* Features
+* Requirements
+
+
+Introduction
+------------
+PhpRestService is a library for creating RESTful webservices with PHP. 
+
+
+Features
+--------
+* Create RESTful Resources within minutes
+* Multiple input formats (http arguments, json, xml, etc)
+* Multiple output formats (xml, json, etc)
+* Handles content negotiation
+* Supports compression & caching
+* Uses http response codes properly
+
+
+Requirements
+------------
+* PHP 5.3
+* Webserver (apache, nginx)
+
