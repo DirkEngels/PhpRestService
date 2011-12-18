@@ -60,19 +60,21 @@ class Service {
         }
 
         // Create logfile if not exists
-        if (!file_exists($logFile)) {
-            try {
-                // Create file
-                touch($logFile);
+        try {
+            // Create file
+            touch($logFile);
 
-                // Adding logfile
-                $writerFile = new \Zend_Log_Writer_Stream($logFile);
-                \PhpRestService\Logger::get()->addWriter($writerFile);
-                \PhpRestService\Logger::log('Adding log writer: ' . $logFile, \Zend_Log::DEBUG);
-            } catch (\Exception $e) {
-                \PhpRestService\Logger::log('Cannot create log file: ' . $logFile, \Zend_Log::ALERT);
-            }
+            // Adding logfile
+            $writerFile = new \Zend_Log_Writer_Stream($logFile);
+            \PhpRestService\Logger::get()->addWriter($writerFile);
+            \PhpRestService\Logger::log('Adding log writer: ' . $logFile, \Zend_Log::DEBUG);
+
+            $writerFile->addFilter(\Zend_Log::DEBUG);
+            \PhpRestService\Logger::log("Setting log level to DEBUG", \Zend_Log::DEBUG);
+        } catch (\Exception $e) {
+            \PhpRestService\Logger::log('Cannot create log file: ' . $logFile, \Zend_Log::ALERT);
         }
+
     }
 
 
@@ -93,6 +95,8 @@ class Service {
     }
 
     protected function _renderOutput($resource) {
+        \PhpRestService\Logger::get()->log('Handling resource: GET: ' . get_class($resource), \Zend_Log::INFO);
+
         // Representation
         $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
         switch ($format) {
