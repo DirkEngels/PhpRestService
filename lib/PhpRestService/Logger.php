@@ -44,7 +44,6 @@ class Logger {
             $level = Config::get()->getOptionValue('service.log.level');
         }
 
-        error_log('[' . getmypid() . '] ' . $message);
         return self::get()->log('[' . getmypid() . '] ' . $message, $level);
     }
 }
