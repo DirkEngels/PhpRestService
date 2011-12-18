@@ -1,0 +1,19 @@
+Change Log
+==========
+
+Version 1.0 (roadmap)
+---------------------
+- Create REST resource objects
+- Add resource config
+- Add resource caching
+- Add resource authentication
+- Create documentation
+- Create website
+
+
+Version 0.1 (planned)
+---------------------
++ Concept resource structure
++ Multiple representations (Json, Xml)
++ Add resource configuration options
++ Add logger instance
