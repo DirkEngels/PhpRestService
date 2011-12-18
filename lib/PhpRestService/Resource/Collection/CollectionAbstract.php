@@ -28,4 +28,12 @@ abstract class CollectionAbstract {
         throw Exception('HTTP Method not implemented');
     }
 
+    public function handle() {
+        $method = $_SERVER['REQUEST_METHOD'];
+        if (!method_exists($this, $method)) {
+            throw new \Exception('HTTP Method has not been implemented!');
+        }
+        return $this->$method();
+    }
+
 }

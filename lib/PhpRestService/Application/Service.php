@@ -80,22 +80,27 @@ class Service {
 
     protected function _initResource() {
         // Resource
-        if (preg_match('/task/', ($_SERVER['REQUEST_URI']))) {
-            // Initialize hard coded resource
-            $resource = new \App\Service\Daemon\Single\Task\Item($this->_request, $this->_response);
+        $item = new \App\Service\Daemon\Single\Task\Item($this->_request, $this->_response);
+        $collection = new \App\Service\Daemon\Single\Daemon\Collection($this->_request, $this->_response);
+        $resource = new \PhpRestService\Resource\ResourceDefault();
+        $resource->setItem($item);
+        $resource->setCollection($collection);
 
-        } else {
-            $resource = new \App\Service\Daemon\Single\Daemon\Collection($this->_request, $this->_response);
+        if (preg_match('/task/', ($_SERVER['REQUEST_URI']))) {
+            $resource->setId('34');
         }
+
+        \PhpRestService\Logger::get()->log('Loaded resource: GET: ' . get_class($resource), \Zend_Log::INFO);
+
         return $resource;
     }
 
     protected function _detectRoute() {
-        
+        \PhpRestService\Logger::get()->log('Detecting route: ' . $_SERVER['REQUEST_METHOD'] . ': ' . $_SERVER['REQUEST_URI'], \Zend_Log::INFO);
     }
 
     protected function _renderOutput($resource) {
-        \PhpRestService\Logger::get()->log('Handling resource: GET: ' . get_class($resource), \Zend_Log::INFO);
+        \PhpRestService\Logger::get()->log('Rendering resource: GET: ' . get_class($resource), \Zend_Log::INFO);
 
         // Representation
         $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
@@ -108,7 +113,15 @@ class Service {
                 $representation = new Representation\Json($this->_response);
                 break;
         }
-        $this->_response = $representation->render($resource->get());
+        try {
+            $data = $resource->handle();
+        } catch (\Exception $e) {
+            $data = array(
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            );
+        }
+        $this->_response = $representation->render($data);
 
     }
 
@@ -127,6 +140,9 @@ class Service {
 
         // Init response
         $this->_response = new Http\Response();
+
+        // Detect Route
+        $this->_detectRoute();
 
         // Init resource
         $resource = $this->_initResource($this->_response);

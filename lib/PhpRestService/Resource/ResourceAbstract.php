@@ -57,7 +57,7 @@ abstract class ResourceAbstract {
     }
 
     public function handle() {
-        if (!empty($this->getId())) {
+        if ($this->getId()) {
             return $this->getItem()->handle();
         }
         return $this->getCollection()->handle();
