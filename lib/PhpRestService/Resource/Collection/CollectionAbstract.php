@@ -4,6 +4,15 @@ namespace PhpRestService\Resource\Collection;
 
 abstract class CollectionAbstract {
 
+    protected $_request;
+    protected $_response;
+
+    public function __construct($request = NULL) {
+        if (!is_null($request)) {
+            $this->setRequest($request);
+        }
+    }
+
     public function head() {
         throw Exception('HTTP Method not implemented');
     }
