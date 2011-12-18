@@ -13,7 +13,7 @@ Version 1.0 (roadmap)
 
 Version 0.1 (planned)
 ---------------------
-- Concept resource structure
-- Multiple representations (Json, Xml)
-- Add resource configuration options
-- Add logger instance
++ Concept resource structure
++ Multiple representations (Json, Xml)
++ Add resource configuration options
++ Add logger instance
