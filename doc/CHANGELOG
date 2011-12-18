@@ -11,8 +11,17 @@ Version 1.0 (roadmap)
 - Create website
 
 
-Version 0.1 (planned)
+Version 0.2 (planned)
 ---------------------
+- Add url routing
+- Implement HTTP status codes
+- Implement HTTP headers
+    - Content type
+    - Accept
+    - Authorization
+
+Version 0.1 (18-12-2011)
+========================
 + Concept resource structure
 + Multiple representations (Json, Xml)
 + Add resource configuration options
