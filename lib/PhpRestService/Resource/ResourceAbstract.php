@@ -8,8 +8,12 @@ abstract class ResourceAbstract {
     protected $_item;
     protected $_id;
 
-    protected $_input;
-    protected $_output;
+    protected $_request;
+    protected $_response;
+
+    public function __construct($resource) {
+        
+    }
 
     public function getCollection() {
         return $this->_collection;
@@ -38,21 +42,21 @@ abstract class ResourceAbstract {
         return $this;
     }
 
-    public function getInput() {
-        return $this->_input;
+    public function getRequest() {
+        return $this->_request;
     }
 
-    public function setInput($input) {
-        $this->_input = $input;
+    public function setRequest($request) {
+        $this->_request = $request;
         return $this;
     }
 
-    public function getOutput() {
-        return $this->_output;
+    public function getResponse() {
+        return $this->_response;
     }
 
-    public function setOutput($output) {
-        $this->_output = $output;
+    public function setResponse($response) {
+        $this->_response = $response;
         return $this;
     }
 
