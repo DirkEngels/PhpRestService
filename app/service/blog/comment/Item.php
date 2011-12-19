@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Blog\Post\Comment;
+namespace App\Service\Blog\Comment;
 
 class Item extends \PhpRestService\Resource\Item\ItemAbstract implements \PhpRestService\Resource\Item\ItemInterface {
 

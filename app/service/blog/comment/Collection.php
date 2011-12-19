@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Blog\Post\Comment;
+namespace App\Service\Blog\Comment;
 
 class Collection extends \PhpRestService\Resource\Collection\CollectionAbstract implements \PhpRestService\Resource\Collection\CollectionInterface {
 
