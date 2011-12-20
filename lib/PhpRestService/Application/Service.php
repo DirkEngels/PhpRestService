@@ -13,14 +13,19 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
 
     protected function _loadResource() {
-        // Resource
+        // Demo Resource: Task
         $item = new \App\Service\Daemon\Single\Task\Item();
         $collection = new \App\Service\Daemon\Single\Daemon\Collection();
+
+        // Demo Resource: Blog Post
+        $item = new \App\Service\Blog\Post\Item();
+        $collection = new \App\Service\Blog\Post\Collection();
+
         $resource = new \PhpRestService\Resource\ResourceDefault();
         $resource->setItem($item);
         $resource->setCollection($collection);
 
-        if (preg_match('/task/', ($_SERVER['REQUEST_URI']))) {
+        if (preg_match('#blog/post#', ($_SERVER['REQUEST_URI']))) {
             $resource->setId('34');
         }
 
