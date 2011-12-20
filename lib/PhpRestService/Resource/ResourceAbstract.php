@@ -11,7 +11,7 @@ abstract class ResourceAbstract {
     protected $_request;
     protected $_response;
 
-    public function __construct($resource) {
+    public function __construct() {
         
     }
 
