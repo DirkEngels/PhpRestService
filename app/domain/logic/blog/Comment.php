@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpRestService\Domain\Logic;
+namespace App\Domain\Logic;
 
 class Comment {
 
