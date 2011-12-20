@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Blog\Model;
+namespace App\Domain\Model\Blog;
 
 /**
  * @Entity
  * @Table(name="blog_comment")
  * @HasLifeCycleCallbacks
  */
-class Comment extends AbstractClass {
+class Comment {
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")

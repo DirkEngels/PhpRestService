@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Blog\Model;
+namespace App\Domain\Model\Blog;
 
 /**
  * @Entity
  * @Table(name="blog_post")
  */
-class Post extends AbstractClass {
+class Member {
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -27,8 +27,8 @@ class Post extends AbstractClass {
     /** @Column(name="email" type="string", length=200) */
     private $email;
 
-    /** @OneToMany(targetEntity="Comment", mappedBy="member") */
-    private $comments;
+//    /** @OneToMany(targetEntity="Comment", mappedBy="member") */
+//    private $comments;
 
     public function getId() {
         return $this->id;
@@ -61,9 +61,9 @@ class Post extends AbstractClass {
         return $this;
     }
 
-    public function getComments() {
-        return $this->comments;
-    }
+//    public function getComments() {
+//        return $this->comments;
+//    }
 
     /**
      * @PrePersist

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Blog\Model;
+namespace App\Domain\Model\Blog;
 
 /**
  * @Entity
  * @Table(name="blog_post")
  */
-class Post extends AbstractClass {
+class Post {
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue(strategy="AUTO")
@@ -18,7 +18,7 @@ class Post extends AbstractClass {
      */
     private $dateCreated;
 
-    /** @Column(name="title" type="string", length=100) */
+    /** @Column(name="title", type="string", length=100) */
     private $title;
 
     /** @Column(type="text") */
