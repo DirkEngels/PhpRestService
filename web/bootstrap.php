@@ -50,6 +50,32 @@ function __autoloadPhpRestService($className) {
 }
 spl_autoload_register('__autoloadPhpRestService');
 
+include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemAbstract.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemInterface.php');
+
+include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
+
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationAbstract.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Json.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Xml.php');
+
+
+include(APPLICATION_PATH . '/domain/logic/blog/Post.php');
+include(APPLICATION_PATH . '/domain/logic/blog/Member.php');
+include(APPLICATION_PATH . '/domain/logic/blog/Comment.php');
+
+include(APPLICATION_PATH . '/domain/model/blog/Post.php');
+include(APPLICATION_PATH . '/domain/model/blog/Member.php');
+include(APPLICATION_PATH . '/domain/model/blog/Comment.php');
+
+include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
+include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
+
+include(APPLICATION_PATH . '/service/blog/post/Collection.php');
+include(APPLICATION_PATH . '/service/blog/post/Item.php');
+
 
 // Doctrine 2 instantiation
 $config = new \Doctrine\ORM\Configuration();
@@ -76,22 +102,11 @@ $connection = array(
     'dbname' => 'phprestservice'
 );
 
+require_once("Zend/Registry.php");
+$registry = Zend_Registry::getInstance();
+
 $registry->entityManager = \Doctrine\ORM\EntityManager::create(
     $connection, $config
 );
 
-
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemInterface.php');
-
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
-
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationAbstract.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationInterface.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Json.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Xml.php');
-
-include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
-include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
 
