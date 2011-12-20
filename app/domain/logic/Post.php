@@ -1,5 +1,7 @@
 <?php
 
+namespace PhpRestService\Domain\Logic;
+
 class Post {
 
     public function write($data) {
