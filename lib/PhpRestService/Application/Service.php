@@ -38,13 +38,14 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
         // Representation
         $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
+        $response = new \PhpRestService\Http\Response();
         switch ($format) {
             case 'xml':
-                $representation = new Representation\Xml();
+                $representation = new Representation\Xml($response);
                 break;
             case 'json':
             default:
-                $representation = new Representation\Json();
+                $representation = new Representation\Json($response);
                 break;
         }
         try {
