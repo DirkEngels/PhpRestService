@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Blog\Comment;
+namespace App\Blog\Model;
 
 /**
  * @Entity
@@ -15,15 +15,21 @@ class Comment extends AbstractClass {
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="\App\Model\Blog\Post", inversedBy="posts")
+     * @ManyToOne(targetEntity="\App\Model\Blog\Post", inversedBy="comments")
      * @JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
 
     /**
-     * @Column(name="date", type="datetime")
+     * @ManyToOne(targetEntity="\App\Model\Blog\Member", inversedBy="comments")
+     * @JoinColumn(name="member_id", referencedColumnName="id")
      */
-    private $date;
+    private $member;
+
+    /**
+     * @Column(name="dateCreated", type="datetime")
+     */
+    private $dateCreated;
 
     /** @Column(name="author", type="string", length=100) */
     private $author;
@@ -44,12 +50,21 @@ class Comment extends AbstractClass {
         return $this;
     }
 
-    public function getDate() {
-    	return $this->date;
+    public function getMember() {
+        return $this->member;
     }
 
-    public function setDate($date) {
-        $this->date = $date;
+    public function setMember($member) {
+        $this->member = $member;
+        return $this;
+    }
+
+    public function getDateCreated() {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated($dateCreated) {
+        $this->dateCreated = $dateCreated;
         return $this;
     }
 

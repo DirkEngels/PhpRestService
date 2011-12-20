@@ -14,9 +14,9 @@ class Post extends AbstractClass {
     private $id;
 
     /**
-     * @Column(name="date", type="datetime")
+     * @Column(name="dateCreated", type="datetime")
      */
-    private $date;
+    private $dateCreated;
 
     /** @Column(name="title" type="string", length=100) */
     private $title;
@@ -31,12 +31,12 @@ class Post extends AbstractClass {
         return $this->id;
     }
 
-    public function getDate() {
-    	return $this->date;
+    public function getDateCreated() {
+        return $this->dateCreated;
     }
 
-    public function setDate($date) {
-        $this->date = $date;
+    public function setDateCreated($dateCreated) {
+        $this->dateCreated = $dateCreated;
         return $this;
     }
 
