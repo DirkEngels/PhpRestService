@@ -51,6 +51,35 @@ function __autoloadPhpRestService($className) {
 spl_autoload_register('__autoloadPhpRestService');
 
 
+// Doctrine 2 instantiation
+$config = new \Doctrine\ORM\Configuration();
+$proxydir = APPLICATION_PATH . "/domain/proxies";
+if (!is_dir($proxydir)) {
+    mkdir($proxydir, 0777, true);
+}
+$config->setProxyDir($proxydir);
+$config->setProxyNamespace('App\\Domain\\Proxies');
+$config->setAutoGenerateProxyClasses(true);
+
+$driverImpl = $config->newDefaultAnnotationDriver(APPLICATION_PATH . "/domain/model/");
+$config->setMetadataDriverImpl($driverImpl);
+
+$cache = new \Doctrine\Common\Cache\ArrayCache();
+$config->setMetadataCacheImpl($cache);
+$config->setQueryCacheImpl($cache);
+
+$connection = array(
+    'driver' => 'pdo_mysql',
+    'host' => 'localhost',
+    'user' => 'phprestservice',
+    'password' => 'phprestservice',
+    'dbname' => 'phprestservice'
+);
+
+$registry->entityManager = \Doctrine\ORM\EntityManager::create(
+    $connection, $config
+);
+
 
 include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemAbstract.php');
 include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemInterface.php');
