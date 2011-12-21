@@ -25,7 +25,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $resource->setItem($item);
         $resource->setCollection($collection);
 
-        if (preg_match('#blog/post#', ($_SERVER['REQUEST_URI']))) {
+        if (preg_match('#blog/post/([0-9]+)#', ($_SERVER['REQUEST_URI']))) {
             $resource->setId('34');
         }
 
