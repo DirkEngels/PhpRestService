@@ -12,7 +12,10 @@ class Item extends \PhpRestService\Resource\Item\ItemAbstract implements \PhpRes
 
     public function get() {
         $urlPieces = explode('/', $_SERVER['REQUEST_URI']);
-        $id = $urlPieces[3];
+        $id = NULL;
+        if (count($urlPieces)>3) {
+            $id = $urlPieces[3];
+        }
 
         $object = $this->_logic->find($id);
 
