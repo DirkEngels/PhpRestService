@@ -9,16 +9,20 @@ Version 1.0 (roadmap)
 - Add resource authentication
 - Create documentation
 - Create website
-
+- Add url routing
+- Implement HTTP headers
+    - Accept
+    - Authorization
 
 Version 0.2 (planned)
 ---------------------
-- Add url routing
+- Refactor application
+- Refactor resource
++ Create demo resource: blog post
 - Implement HTTP status codes
-- Implement HTTP headers
-    - Content type
-    - Accept
-    - Authorization
++ Implement HTTP headers
+    + Content type
+
 
 Version 0.1 (18-12-2011)
 ========================
