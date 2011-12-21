@@ -4,6 +4,17 @@ namespace PhpRestService\Resource\Item;
 
 abstract class ItemAbstract {
 
+    protected $_id;
+
+    public function getId() {
+        return $this->_id;
+    }
+
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
+
     public function head() {
         throw Exception('HTTP Method not implemented');
     }
