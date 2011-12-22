@@ -40,9 +40,9 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
             }
         }
 
-
         return $resource;
     }
+
 
     protected function _detectRoute() {
         \PhpRestService\Logger::get()->log('Detecting route: ' . $_SERVER['REQUEST_METHOD'] . ': ' . $_SERVER['REQUEST_URI'], \Zend_Log::INFO);
@@ -50,6 +50,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
         return $router;
     }
+
 
     protected function _renderOutput($resource) {
         \PhpRestService\Logger::get()->log('Rendering resource: GET: ' . get_class($resource), \Zend_Log::INFO);
@@ -75,15 +76,11 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
             );
         }
         $this->_response = $representation->render($data);
-
     }
 
-    public function run() {
-        // Initialize Configuration
-        $this->_initConfig();
 
-        // Add Log Files
-        $this->_initLogFile();
+    public function run() {
+        $this->_init();
 
         // Detect Route
         $route = $this->_detectRoute();

@@ -5,6 +5,20 @@ namespace PhpRestService\Application;
 class ApplicationAbstract {
 
     /**
+     * Run all the initialize methods
+     * - initConfig
+     * - initLogFile
+     */
+    protected function _init() {
+        // Initialize Configuration
+        $this->_initConfig();
+
+        // Add Log Files
+        $this->_initLogFile();
+    }
+
+
+    /**
      * Initializes the Config component by loading configuration files passed 
      * using command line arguments and the default configuration files.
      */
