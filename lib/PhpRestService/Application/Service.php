@@ -12,30 +12,43 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
     protected $_response;
 
 
-    protected function _loadResource() {
-        // Demo Resource: Task
-        $item = new \App\Service\Daemon\Single\Task\Item();
-        $collection = new \App\Service\Daemon\Single\Daemon\Collection();
-
-        // Demo Resource: Blog Post
-        $item = new \App\Service\Blog\Post\Item();
-        $collection = new \App\Service\Blog\Post\Collection();
+    protected function _loadResource($router) {
+        $resourceName = $router->getResource();
 
         $resource = new \PhpRestService\Resource\ResourceDefault();
-        $resource->setItem($item);
-        $resource->setCollection($collection);
+        $baseClass = '\\App\\Service\\' . $resourceName;
 
-        if (preg_match('#blog/post/([0-9]+)#', ($_SERVER['REQUEST_URI']))) {
-            $resource->setId('34');
+        $matches = array();
+        if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
+            // Item resource
+            if (class_exists($baseClass . '\\Item')) {
+                $resource->setId($matches[0]);
+                \PhpRestService\Logger::get()->log('Loading item resource: GET: ' . $resourceName, \Zend_Log::INFO);
+
+                $itemClass = $baseClass . '\\Item';
+                $item = new $itemClass();
+                $resource->setItem($item);
+            }
+        } else {
+            // Collection resource
+            if (class_exists($baseClass . '\\Collection')) {
+                \PhpRestService\Logger::get()->log('Loading collection resource: GET: ' . $resourceName, \Zend_Log::INFO);
+
+                $collectionClass = $baseClass . '\\Collection';
+                $collection = new $collectionClass();
+                $resource->setCollection($collection);
+            }
         }
 
-        \PhpRestService\Logger::get()->log('Loaded resource: GET: ' . get_class($resource), \Zend_Log::INFO);
 
         return $resource;
     }
 
     protected function _detectRoute() {
         \PhpRestService\Logger::get()->log('Detecting route: ' . $_SERVER['REQUEST_METHOD'] . ': ' . $_SERVER['REQUEST_URI'], \Zend_Log::INFO);
+        $router = new \PhpRestService\Application\Router\Resource($_SERVER['REQUEST_URI']);
+
+        return $router;
     }
 
     protected function _renderOutput($resource) {
@@ -73,10 +86,10 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $this->_initLogFile();
 
         // Detect Route
-        $this->_detectRoute();
+        $route = $this->_detectRoute();
 
         // Load resource
-        $resource = $this->_loadResource();
+        $resource = $this->_loadResource($route);
 
         // Init representation
         $this->_renderOutput($resource);
