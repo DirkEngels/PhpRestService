@@ -6,12 +6,14 @@ abstract class FormatterAbstract {
 
     public static function dataUrl($object) {
         $data = array();
-        $id = $object->getId();
-        if (empty($id)) {
-            $data = array (
-                'id' => $object->getId(),
-                'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/blog/post/' . $object->getId(),
-            );
+        if (method_exists($object, 'getId')) {
+            $id = $object->getId();
+            if (empty($id)) {
+                $data = array (
+                    'id' => $object->getId(),
+                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/blog/post/' . $object->getId(),
+                );
+            }
         }
         return $data;
     }
