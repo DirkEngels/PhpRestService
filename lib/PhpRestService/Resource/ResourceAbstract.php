@@ -61,19 +61,34 @@ abstract class ResourceAbstract {
     }
 
     public function handle() {
-        $item = $this->getItem();
-        if (!is_null($item)) {
+        $data = array();
+        try {
+            // Return item, if an ID has been provided
             if ($this->getId()) {
-                $item->setId($this->getId());
-                return $item->handle();
+                $item = $this->getItem();
+                if (!is_null($item)) {
+                    $item->setId($this->getId());
+                    $object = $item->handle();
+                    $data = $this->getFormatter()->formatItem($object);
+                }
             }
+
+            // Return collection
+            $collection = $this->getCollection();
+            if (!is_null($collection)) {
+                $objects = $collection->handle();
+                $data = $this->getFormatter()->formatCollection($objects);
+            }
+
+            // No collection found & no item id provided, throw exception
+            if (count($data) == array()) {
+                throw new \Exception('Resource not found!', 404);
+            }
+        } catch (\Exception $e) {
+            $formatter = new Formatter\Exception();
+            $data = $formatter->formatItem($e);
         }
 
-        $collection = $this->getCollection();
-        if (!is_null($collection)) {
-            return $collection->handle();
-        }
-
-        throw new \Exception('Resource not found!', 404);
+        
     }
 }
