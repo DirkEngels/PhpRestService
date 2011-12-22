@@ -4,6 +4,7 @@ namespace App\Domain\Model\Blog;
 
 /**
  * @Entity
+ * @HasLifecycleCallbacks
  * @Table(name="blog_post")
  */
 class Post {
@@ -66,7 +67,7 @@ class Post {
      * @PrePersist
      */
     function onPrePersist() {
-        $this->date = new \DateTime('now');
+        $this->dateCreated = new \DateTime('now');
     }
 
 }
