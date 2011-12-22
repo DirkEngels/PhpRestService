@@ -12,18 +12,10 @@ class Collection extends \PhpRestService\Resource\Collection\CollectionAbstract 
 
     public function get() {
         $objects = $this->_logic->load();
-        $data = array();
-        foreach($objects as $object) {
-            $data[] = array(
-                'id' => $object->getId(),
-                'url' => 'http://'. $_SERVER['HTTP_HOST'] . '/blog/post/' . $object->getId(),
-                'title' => $object->getTitle(),
-                'date' => $object->getDateCreated(),
-            );
-        }
-
-        // Fill response
-        return $data;
+        return $objects;
     }
 
+    public function post() {
+        return $this->_logic->write($data);
+    }
 }

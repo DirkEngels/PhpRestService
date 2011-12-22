@@ -18,22 +18,7 @@ class Item extends \PhpRestService\Resource\Item\ItemAbstract implements \PhpRes
         }
 
         $object = $this->_logic->find($id);
-
-        $data = array (
-            'id' => $object->getId(),
-            'url' => '/task/' . $object->getId(),
-            'date' => $object->getDateCreated(),
-            'title' => $object->getTitle(),
-            'content' => $object->getContent(),
-            'comments' => $object->getComments(),
-        );
-
-        // Fill response
-        return $data;
-    }
-
-    public function post() {
-        
+        return $object;
     }
 
 }
