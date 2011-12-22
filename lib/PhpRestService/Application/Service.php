@@ -18,6 +18,17 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $resource = new \PhpRestService\Resource\ResourceDefault();
         $baseClass = '\\App\\Service\\' . $resourceName;
 
+        // Set formatter
+        if (class_exists($baseClass . '\\Formatter')) {
+            $formatterClass = $baseClass . '\\Formatter';
+            \PhpRestService\Logger::get()->log('Setting custom formatter: ' . $formatterClass, \Zend_Log::INFO);
+        } else {
+            $formatterClass = '\\PhpRestService\\Resource\\Formatter\\All';
+            \PhpRestService\Logger::get()->log('Setting default formatter: ' . $formatterClass, \Zend_Log::INFO);
+        }
+        $formatter = new $formatterClass();
+        $resource->setFormatter($formatter);
+
         $matches = array();
         if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
             // Item resource
@@ -67,6 +78,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
                 $representation = new Representation\Json($response);
                 break;
         }
+
         try {
             $data = $resource->handle();
         } catch (\Exception $e) {

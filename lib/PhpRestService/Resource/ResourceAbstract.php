@@ -4,6 +4,7 @@ namespace PhpRestService\Resource;
 
 abstract class ResourceAbstract {
 
+    protected $_formatter;
     protected $_collection;
     protected $_item;
     protected $_id;
@@ -13,6 +14,15 @@ abstract class ResourceAbstract {
 
     public function __construct() {
         
+    }
+
+    public function getFormatter() {
+        return $this->_formatter;
+    }
+
+    public function setFormatter($formatter) {
+        $this->_formatter = $formatter;
+        return $this;
     }
 
     public function getCollection() {
@@ -81,7 +91,7 @@ abstract class ResourceAbstract {
             }
 
             // No collection found & no item id provided, throw exception
-            if (count($data) == array()) {
+            if ($data === array()) {
                 throw new \Exception('Resource not found!', 404);
             }
         } catch (\Exception $e) {
@@ -89,6 +99,6 @@ abstract class ResourceAbstract {
             $data = $formatter->formatItem($e);
         }
 
-        
+        return $data;
     }
 }
