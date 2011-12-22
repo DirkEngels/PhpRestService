@@ -5,7 +5,18 @@ namespace App\Domain\Logic;
 class Post {
 
     public function write($data) {
-        
+        $blogPost = new \App\Domain\Model\Blog\Post();
+        foreach($data as $key => $value) {
+            $method = 'set' . $key;
+            if (method_exists($blogPost, $method)) {
+            	error_log('setting: ' . $key);
+                $blogPost->$method($value);
+            }
+        }
+
+        $entityManager = \Zend_Registry::get('entityManager');
+        $entityManager->persist($blogPost);
+        return $entityManager->flush();
     }
 
     public function load() {
