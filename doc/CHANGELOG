@@ -13,13 +13,13 @@ Version 1.0 (roadmap)
 - Implement HTTP headers
     - Accept
     - Authorization
+- Implement HTTP status codes
+
 
 Version 0.2 (planned)
 ---------------------
-- Refactor application
-- Refactor resource
++ Add an application abstract class
 + Create demo resource: blog post
-- Implement HTTP status codes
 + Implement HTTP headers
     + Content type
 
