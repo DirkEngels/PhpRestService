@@ -6,113 +6,79 @@ use PhpRestService\Http;
 use PhpRestService\Resource;
 use PhpRestService\Resource\Representation;
 
-class Service {
+class Service extends ApplicationAbstract implements ApplicationInterface {
 
     protected $_request;
     protected $_response;
 
 
-    /**
-     * Initializes the Config component by loading configuration files passed 
-     * using command line arguments and the default configuration files.
-     */
-    protected function _initConfig() {
-        // Prepare configuration files
-        $configFiles = array();
+    protected function _loadResource($router) {
+        $resourceName = $router->getResource();
 
-        // Initiate config
-        $config = \PhpRestService\Config::get($configFiles);
-        return $config;
-    }
-
-
-    /**
-     * Initializes the logging verbose mode
-     */
-    protected function _initLogVerbose() {
-        // Log Verbose Output
-//        if ($this->_consoleOpts->getOption('verbose')) {
-//            $writerVerbose = new \Zend_Log_Writer_Stream('php://output');
-//
-//            // Determine Log Level
-//            $logLevel = \Zend_Log::ERR;
-//            if ($this->_consoleOpts->getOption('verbose')>1) {
-//                $logLevel = (int) $this->_consoleOpts->getOption('verbose');
-//            }
-//            $writerVerbose->addFilter($logLevel);
-//
-//            \PhpRestService\Logger::get()->addWriter($writerVerbose);
-//            $msg = 'Adding log writer: verbose (level: ' . $logLevel . ')';
-//            \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
-//        }
-    }
-
-
-    /**
-     * Initalizes the Logger component to save log messages to a file based on
-     * the command line arguments and/or configuration files. 
-     * @throws \Exception
-     */
-    protected function _initLogFile() {
-        $logFile = \PhpRestService\Config::get()->getOptionValue('log.file');
-        if (substr($logFile, 0, 1)!='/') {
-            $logFile = realpath(\APPLICATION_PATH) . '/' . $logFile;
-        }
-
-        // Create logfile if not exists
-        try {
-            // Create file
-            touch($logFile);
-
-            // Adding logfile
-            $writerFile = new \Zend_Log_Writer_Stream($logFile);
-            \PhpRestService\Logger::get()->addWriter($writerFile);
-            \PhpRestService\Logger::log('Adding log writer: ' . $logFile, \Zend_Log::DEBUG);
-
-            $writerFile->addFilter(\Zend_Log::DEBUG);
-            \PhpRestService\Logger::log("Setting log level to DEBUG", \Zend_Log::DEBUG);
-        } catch (\Exception $e) {
-            \PhpRestService\Logger::log('Cannot create log file: ' . $logFile, \Zend_Log::ALERT);
-        }
-
-    }
-
-
-    protected function _initResource() {
-        // Resource
-        $item = new \App\Service\Daemon\Single\Task\Item($this->_request, $this->_response);
-        $collection = new \App\Service\Daemon\Single\Daemon\Collection($this->_request, $this->_response);
         $resource = new \PhpRestService\Resource\ResourceDefault();
-        $resource->setItem($item);
-        $resource->setCollection($collection);
+        $baseClass = '\\App\\Service\\' . $resourceName;
 
-        if (preg_match('/task/', ($_SERVER['REQUEST_URI']))) {
-            $resource->setId('34');
+        // Set formatter
+        if (class_exists($baseClass . '\\Formatter')) {
+            $formatterClass = $baseClass . '\\Formatter';
+            \PhpRestService\Logger::get()->log('Setting custom formatter: ' . $formatterClass, \Zend_Log::INFO);
+        } else {
+            $formatterClass = '\\PhpRestService\\Resource\\Formatter\\All';
+            \PhpRestService\Logger::get()->log('Setting default formatter: ' . $formatterClass, \Zend_Log::INFO);
         }
+        $formatter = new $formatterClass();
+        $resource->setFormatter($formatter);
 
-        \PhpRestService\Logger::get()->log('Loaded resource: GET: ' . get_class($resource), \Zend_Log::INFO);
+        $matches = array();
+        if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
+            // Item resource
+            if (class_exists($baseClass . '\\Item')) {
+                $resource->setId($matches[0]);
+                \PhpRestService\Logger::get()->log('Loading item resource: GET: ' . $resourceName, \Zend_Log::INFO);
+
+                $itemClass = $baseClass . '\\Item';
+                $item = new $itemClass();
+                $resource->setItem($item);
+            }
+        } else {
+            // Collection resource
+            if (class_exists($baseClass . '\\Collection')) {
+                \PhpRestService\Logger::get()->log('Loading collection resource: GET: ' . $resourceName, \Zend_Log::INFO);
+
+                $collectionClass = $baseClass . '\\Collection';
+                $collection = new $collectionClass();
+                $resource->setCollection($collection);
+            }
+        }
 
         return $resource;
     }
 
+
     protected function _detectRoute() {
         \PhpRestService\Logger::get()->log('Detecting route: ' . $_SERVER['REQUEST_METHOD'] . ': ' . $_SERVER['REQUEST_URI'], \Zend_Log::INFO);
+        $router = new \PhpRestService\Application\Router\Resource($_SERVER['REQUEST_URI']);
+
+        return $router;
     }
+
 
     protected function _renderOutput($resource) {
         \PhpRestService\Logger::get()->log('Rendering resource: GET: ' . get_class($resource), \Zend_Log::INFO);
 
         // Representation
         $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
+        $response = new \PhpRestService\Http\Response();
         switch ($format) {
             case 'xml':
-                $representation = new Representation\Xml($this->_response);
+                $representation = new Representation\Xml($response);
                 break;
             case 'json':
             default:
-                $representation = new Representation\Json($this->_response);
+                $representation = new Representation\Json($response);
                 break;
         }
+
         try {
             $data = $resource->handle();
         } catch (\Exception $e) {
@@ -122,30 +88,17 @@ class Service {
             );
         }
         $this->_response = $representation->render($data);
-
     }
 
+
     public function run() {
-        // Set verbose mode (--verbose)
-        $this->_initLogVerbose();
-
-        // Initialize Configuration
-        $this->_initConfig();
-
-        // Add Log Files
-        $this->_initLogFile();
-
-        // Get Request
-        $this->_request = new Http\Request();
-
-        // Init response
-        $this->_response = new Http\Response();
+        $this->_init();
 
         // Detect Route
-        $this->_detectRoute();
+        $route = $this->_detectRoute();
 
-        // Init resource
-        $resource = $this->_initResource($this->_response);
+        // Load resource
+        $resource = $this->_loadResource($route);
 
         // Init representation
         $this->_renderOutput($resource);

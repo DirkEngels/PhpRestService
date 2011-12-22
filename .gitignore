@@ -1,1 +1,4 @@
 lib/PhpTaskDaemon
+lib/Doctrine
+lib/Zend
+doc/tmp

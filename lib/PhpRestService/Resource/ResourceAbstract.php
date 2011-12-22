@@ -4,12 +4,26 @@ namespace PhpRestService\Resource;
 
 abstract class ResourceAbstract {
 
+    protected $_formatter;
     protected $_collection;
     protected $_item;
     protected $_id;
 
-    protected $_input;
-    protected $_output;
+    protected $_request;
+    protected $_response;
+
+    public function __construct() {
+        
+    }
+
+    public function getFormatter() {
+        return $this->_formatter;
+    }
+
+    public function setFormatter($formatter) {
+        $this->_formatter = $formatter;
+        return $this;
+    }
 
     public function getCollection() {
         return $this->_collection;
@@ -38,28 +52,53 @@ abstract class ResourceAbstract {
         return $this;
     }
 
-    public function getInput() {
-        return $this->_input;
+    public function getRequest() {
+        return $this->_request;
     }
 
-    public function setInput($input) {
-        $this->_input = $input;
+    public function setRequest($request) {
+        $this->_request = $request;
         return $this;
     }
 
-    public function getOutput() {
-        return $this->_output;
+    public function getResponse() {
+        return $this->_response;
     }
 
-    public function setOutput($output) {
-        $this->_output = $output;
+    public function setResponse($response) {
+        $this->_response = $response;
         return $this;
     }
 
     public function handle() {
-        if ($this->getId()) {
-            return $this->getItem()->handle();
+        $data = array();
+        try {
+            // Return item, if an ID has been provided
+            if ($this->getId()) {
+                $item = $this->getItem();
+                if (!is_null($item)) {
+                    $item->setId($this->getId());
+                    $object = $item->handle();
+                    $data = $this->getFormatter()->formatItem($object);
+                }
+            }
+
+            // Return collection
+            $collection = $this->getCollection();
+            if (!is_null($collection)) {
+                $objects = $collection->handle();
+                $data = $this->getFormatter()->formatCollection($objects);
+            }
+
+            // No collection found & no item id provided, throw exception
+            if ($data === array()) {
+                throw new \Exception('Resource not found!', 404);
+            }
+        } catch (\Exception $e) {
+            $formatter = new Formatter\Exception();
+            $data = $formatter->formatItem($e);
         }
-        return $this->getCollection()->handle();
+
+        return $data;
     }
 }
