@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource\Representation;
+namespace PhpRestService\Resource\Format;
 
-class Xml extends RepresentationAbstract implements RepresentationInterface {
+class Xml extends FormatAbstract implements FormatInterface {
 
     public function render($data) {
         $this->_response->addHeader('Content-type', 'application/xml');

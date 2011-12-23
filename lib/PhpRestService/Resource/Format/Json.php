@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource\Representation;
+namespace PhpRestService\Resource\Format;
 
-class Json extends RepresentationAbstract implements RepresentationInterface {
+class Json extends FormatAbstract implements FormatInterface {
 
     public function render($data) {
         $this->_response->setCode(200);

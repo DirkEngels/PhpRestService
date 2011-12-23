@@ -1,10 +1,11 @@
+
 <?php
 
-namespace PhpRestService\Resource\Formatter;
+namespace PhpRestService\Resource\Display;
 
-abstract class FormatterAbstract {
+abstract class DisplayAbstract {
 
-    public static function dataUrl($object) {
+    public function dataUrl($object) {
         $data = array();
         if (method_exists($object, 'getId')) {
             $id = $object->getId();
@@ -18,24 +19,24 @@ abstract class FormatterAbstract {
         return $data;
     }
 
-    public static function formatItem($object, $extended = false) {
+    public function displayItem($object, $extended = false) {
         // Basic data
         $data = array_merge(
-            static::dataUrl($object), 
-            static::dataBasic($object)
+            $this->dataUrl($object), 
+            $this->dataBasic($object)
         );
 
         if ($extended) {
-            $data = array_merge($data, static::dataExtended($object));
+            $data = array_merge($data, $this->dataExtended($object));
         }
 
         return $data;
     }
 
-    public static function formatCollection($objects, $extended = false) {
+    public function displayCollection($objects, $extended = false) {
         $data = array();
         foreach($objects as $object) {
-            $data[] = static::formatItem($object, $extended);
+            $data[] = $this->displayItem($object, $extended);
         }
         return $data;
     }

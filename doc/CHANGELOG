@@ -26,8 +26,8 @@ Version 1.0 (roadmap)
 Version 0.3 (planned)
 ---------------------
 - Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
-- Rename formatter to display [refactor-display]
-- Rename representation to format [refactor-format]
++ Rename formatter to display [refactor-display]
++ Rename representation to format [refactor-format]
 + Refactor Resource class to use a manager class [concept-resource-manager]
 - Create a resource factory class [concept-resource-factory]
 - Rename library resource to rest [refactor-rename-rest]

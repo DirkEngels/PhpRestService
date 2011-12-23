@@ -1,14 +1,14 @@
 <?php
 
-namespace PhpRestService\Resource\Formatter;
+namespace PhpRestService\Resource\Display;
 
-class All extends FormatterAbstract implements FormatterInterface {
+class All extends DisplayAbstract implements DisplayInterface {
 
-    public static function dataBasic($object) {
+    public function dataBasic($object) {
         return static::dataExtended($object);
     }
 
-    public static function dataExtended($object) {
+    public function dataExtended($object) {
         $data = array();
         if (method_exists($object, 'toArray')) {
             $data = $object->toArray();
