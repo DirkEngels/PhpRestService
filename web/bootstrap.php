@@ -73,7 +73,7 @@ include(APPLICATION_PATH . '/domain/model/blog/Comment.php');
 include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
 include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
 
-include(APPLICATION_PATH . '/service/blog/post/Formatter.php');
+include(APPLICATION_PATH . '/service/blog/post/Display.php');
 include(APPLICATION_PATH . '/service/blog/post/Collection.php');
 include(APPLICATION_PATH . '/service/blog/post/Item.php');
 
