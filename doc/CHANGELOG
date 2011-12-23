@@ -4,20 +4,33 @@ Change Log
 Version 1.0 (roadmap)
 ---------------------
 - Create REST resource objects
-- Add resource config
 - Add resource caching
 - Add resource authentication
 - Create documentation
 - Create website
-- Implement HTTP headers
+- Add Application Config class
+    - Implement service global config options
+    - Implement resource specific config options
+- Add Application Loader class
+    - Implement resource loader
+- Add Application Router class
+    - Default
+    - Resource
+- Implement HTTP Request class
+- Implement HTTP Header class
+    - Add HTTP status codes
     - Accept
     - Authorization
 
 
 Version 0.3 (planned)
 ---------------------
-- Implement HTTP status codes
-- Add url routing
+- Refactor Collection and Item abstract classes to use the same interface
+- Refactor Resource class
+    - Refactor resource implementation to a manager class
+    - Add a resource factory class
+- Restructure library directory
+    - Rename Resource to Rest
 
 
 Version 0.2 (22-12-2011)
