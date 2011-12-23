@@ -1,12 +1,15 @@
 <?php
 
 namespace PhpRestService\Resource\Manager;
+use \PhpRestService\Resource\Display;
 
 abstract class ManagerAbstract {
 
-    protected $_formatter;
-    protected $_collection;
-    protected $_item;
+    protected $_data;
+    protected $_display;
+    protected $_format;
+
+    protected $_name;
     protected $_id;
 
     protected $_request;
@@ -16,30 +19,39 @@ abstract class ManagerAbstract {
         
     }
 
+    public function getData() {
+        return $this->_data;
+    }
+
+    public function setData($data) {
+        $this->_data = $data;
+        return $this;
+    }
+
     public function getDisplay() {
-        return $this->_formatter;
+        return $this->_display;
     }
 
-    public function setDisplay($formatter) {
-        $this->_formatter = $formatter;
+    public function setDisplay($display) {
+        $this->_display = $display;
         return $this;
     }
 
-    public function getCollection() {
-        return $this->_collection;
+    public function getFormat() {
+        return $this->_format;
     }
 
-    public function setCollection($collection) {
-        $this->_collection = $collection;
+    public function setFormat($format) {
+        $this->_format = $format;
         return $this;
     }
 
-    public function getItem() {
-        return $this->_item;
+    public function getName() {
+        return $this->_name;
     }
 
-    public function setItem($item) {
-        $this->_item = $item;
+    public function setName($name) {
+        $this->_name = $name;
         return $this;
     }
 
@@ -72,31 +84,22 @@ abstract class ManagerAbstract {
 
     public function handle() {
         $data = array();
-        try {
-            // Return item, if an ID has been provided
-            if ($this->getId()) {
-                $item = $this->getItem();
-                if (!is_null($item)) {
-                    $item->setId($this->getId());
-                    $object = $item->handle();
-                    $data = $this->getDisplay()->displayItem($object);
-                }
-            }
 
-            // Return collection
-            $collection = $this->getCollection();
-            if (!is_null($collection)) {
-                $objects = $collection->handle();
+        if ($this->getId()) {
+            $this->getData()->setId($this->getId());
+        }
+
+        try {
+            $objects = $this->getData()->handle();
+            if (is_object($objects)) {
+                $data = $this->getDisplay()->displayItem($objects);
+            } else {
                 $data = $this->getDisplay()->displayCollection($objects);
             }
 
-            // No collection found & no item id provided, throw exception
-            if ($data === array()) {
-                throw new \Exception('Resource not found!', 404);
-            }
         } catch (\Exception $e) {
-            $formatter = new Display\Exception();
-            $data = $formatter->formatItem($e);
+            $display = new Display\Exception();
+            $data = $display->displayItem($e);
         }
 
         return $data;
