@@ -50,19 +50,66 @@ function __autoloadPhpRestService($className) {
 }
 spl_autoload_register('__autoloadPhpRestService');
 
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/DataAbstract.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/DataInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/Collection.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/Item.php');
+
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
+
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/FormatAbstract.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/FormatInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Format/Json.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/Xml.php');
 
 
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemInterface.php');
+include(APPLICATION_PATH . '/domain/logic/blog/Post.php');
+include(APPLICATION_PATH . '/domain/logic/blog/Member.php');
+include(APPLICATION_PATH . '/domain/logic/blog/Comment.php');
 
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
+include(APPLICATION_PATH . '/domain/model/blog/Post.php');
+include(APPLICATION_PATH . '/domain/model/blog/Member.php');
+include(APPLICATION_PATH . '/domain/model/blog/Comment.php');
 
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationAbstract.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationInterface.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Json.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Xml.php');
+//include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
+//include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
 
-include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
-include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
+include(APPLICATION_PATH . '/service/blog/post/Display.php');
+include(APPLICATION_PATH . '/service/blog/post/Collection.php');
+include(APPLICATION_PATH . '/service/blog/post/Item.php');
+
+
+// Doctrine 2 instantiation
+$config = new \Doctrine\ORM\Configuration();
+$proxydir = APPLICATION_PATH . "/domain/proxies";
+if (!is_dir($proxydir)) {
+    mkdir($proxydir, 0777, true);
+}
+$config->setProxyDir($proxydir);
+$config->setProxyNamespace('App\\Domain\\Proxies');
+$config->setAutoGenerateProxyClasses(true);
+
+$driverImpl = $config->newDefaultAnnotationDriver(APPLICATION_PATH . "/domain/model/");
+$config->setMetadataDriverImpl($driverImpl);
+
+$cache = new \Doctrine\Common\Cache\ArrayCache();
+$config->setMetadataCacheImpl($cache);
+$config->setQueryCacheImpl($cache);
+
+$connection = array(
+    'driver' => 'pdo_mysql',
+    'host' => 'localhost',
+    'user' => 'phprestservice',
+    'password' => 'phprestservice',
+    'dbname' => 'phprestservice'
+);
+
+require_once("Zend/Registry.php");
+$registry = Zend_Registry::getInstance();
+
+$registry->entityManager = \Doctrine\ORM\EntityManager::create(
+    $connection, $config
+);
+
 

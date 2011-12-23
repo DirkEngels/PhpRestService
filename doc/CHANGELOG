@@ -4,21 +4,42 @@ Change Log
 Version 1.0 (roadmap)
 ---------------------
 - Create REST resource objects
-- Add resource config
 - Add resource caching
 - Add resource authentication
 - Create documentation
 - Create website
-
-
-Version 0.2 (planned)
----------------------
-- Add url routing
-- Implement HTTP status codes
-- Implement HTTP headers
-    - Content type
+- Add Application Config class
+    - Implement service global config options
+    - Implement resource specific config options
+- Add Application Loader class
+    - Implement resource loader
+- Add Application Router class
+    - Default
+    - Resource
+- Implement HTTP Request class
+- Implement HTTP Header class
+    - Add HTTP status codes
     - Accept
     - Authorization
+
+
+Version 0.3 (planned)
+---------------------
++ Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
++ Rename formatter to display [refactor-display]
++ Rename representation to format [refactor-format]
++ Refactor Resource class to use a manager class [concept-resource-manager]
+- Create a resource factory class [concept-resource-factory]
+- Rename library resource to rest [refactor-rename-rest]
+
+
+Version 0.2 (22-12-2011)
+========================
++ Add an application abstract class
++ Create demo resource: blog post
++ Implement HTTP headers
+    + Content type
+
 
 Version 0.1 (18-12-2011)
 ========================
