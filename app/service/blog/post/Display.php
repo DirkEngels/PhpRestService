@@ -2,9 +2,9 @@
 
 namespace App\Service\Blog\Post;
 
-class Formatter extends \PhpRestService\Resource\Formatter\FormatterAbstract implements \PhpRestService\Resource\Formatter\FormatterInterface {
+class Display extends \PhpRestService\Resource\Display\DisplayAbstract implements \PhpRestService\Resource\Display\DisplayInterface {
 
-    public static function dataBasic($object) {
+    public function dataBasic($object) {
         $data = array(
             'date' => $object->getDateCreated(),
             'title' => $object->getTitle(),
@@ -12,7 +12,7 @@ class Formatter extends \PhpRestService\Resource\Formatter\FormatterAbstract imp
         return $data;
     }
 
-    public static function dataExtended($object) {
+    public function dataExtended($object) {
         $extended = array(
             'content' => $object->getContent(),
             'comments' => $object->getComments(),
