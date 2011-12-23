@@ -1,14 +1,14 @@
 <?php
 
-namespace PhpRestService\Resource\Formatter;
+namespace PhpRestService\Resource\Display;
 
-interface FormatterInterface {
+interface DisplayInterface {
 
-    public static function dataUrl($object);
-    public static function dataBasic($object);
-    public static function dataExtended($object);
+    public function dataUrl($object);
+    public function dataBasic($object);
+    public function dataExtended($object);
 
-    public static function formatItem($object);
-    public static function formatCollection($objects);
+    public function displayItem($object);
+    public function displayCollection($objects);
 
 }
