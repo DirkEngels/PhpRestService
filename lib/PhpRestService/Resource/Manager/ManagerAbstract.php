@@ -16,11 +16,11 @@ abstract class ManagerAbstract {
         
     }
 
-    public function getFormatter() {
+    public function getDisplay() {
         return $this->_formatter;
     }
 
-    public function setFormatter($formatter) {
+    public function setDisplay($formatter) {
         $this->_formatter = $formatter;
         return $this;
     }
@@ -79,7 +79,7 @@ abstract class ManagerAbstract {
                 if (!is_null($item)) {
                     $item->setId($this->getId());
                     $object = $item->handle();
-                    $data = $this->getFormatter()->formatItem($object);
+                    $data = $this->getDisplay()->formatItem($object);
                 }
             }
 
@@ -87,7 +87,7 @@ abstract class ManagerAbstract {
             $collection = $this->getCollection();
             if (!is_null($collection)) {
                 $objects = $collection->handle();
-                $data = $this->getFormatter()->formatCollection($objects);
+                $data = $this->getDisplay()->formatCollection($objects);
             }
 
             // No collection found & no item id provided, throw exception
@@ -95,7 +95,7 @@ abstract class ManagerAbstract {
                 throw new \Exception('Resource not found!', 404);
             }
         } catch (\Exception $e) {
-            $formatter = new Formatter\Exception();
+            $formatter = new Display\Exception();
             $data = $formatter->formatItem($e);
         }
 

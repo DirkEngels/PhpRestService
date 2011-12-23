@@ -19,15 +19,15 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $baseClass = '\\App\\Service\\' . $resourceName;
 
         // Set formatter
-        if (class_exists($baseClass . '\\Formatter')) {
-            $formatterClass = $baseClass . '\\Formatter';
+        if (class_exists($baseClass . '\\Display')) {
+            $formatterClass = $baseClass . '\\Display';
             \PhpRestService\Logger::get()->log('Setting custom formatter: ' . $formatterClass, \Zend_Log::INFO);
         } else {
-            $formatterClass = '\\PhpRestService\\Resource\\Formatter\\All';
+            $formatterClass = '\\PhpRestService\\Resource\\Display\\All';
             \PhpRestService\Logger::get()->log('Setting default formatter: ' . $formatterClass, \Zend_Log::INFO);
         }
         $formatter = new $formatterClass();
-        $resourceManager->setFormatter($formatter);
+        $resourceManager->setDisplay($formatter);
 
         $matches = array();
         if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
