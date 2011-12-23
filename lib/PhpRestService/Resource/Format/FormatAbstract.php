@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource\Representation;
+namespace PhpRestService\Resource\Format;
 
-abstract class RepresentationAbstract {
+abstract class FormatAbstract {
 
     protected $_response;
 
