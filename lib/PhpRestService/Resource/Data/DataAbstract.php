@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource\Collection;
+namespace PhpRestService\Resource\Data;
 
-abstract class CollectionAbstract {
+abstract class DataAbstract {
 
     protected $_request;
     protected $_response;

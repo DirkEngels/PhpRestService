@@ -2,7 +2,9 @@
 
 namespace App\Service\Blog\Post;
 
-class Collection extends \PhpRestService\Resource\Collection\CollectionAbstract implements \PhpRestService\Resource\Collection\CollectionInterface {
+use \PhpRestService\Resource\Data;
+
+class Collection extends Data\Collection implements Data\DataInterface {
 
     protected $_logic;
 
@@ -18,4 +20,5 @@ class Collection extends \PhpRestService\Resource\Collection\CollectionAbstract 
     public function post() {
         return $this->_logic->write($data);
     }
+
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource\Item;
+namespace PhpRestService\Resource\Data;
 
-interface ItemInterface {
+interface DataInterface {
 
     public function head();
     public function options();
