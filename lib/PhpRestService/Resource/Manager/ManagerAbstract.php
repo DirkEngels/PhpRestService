@@ -79,7 +79,7 @@ abstract class ManagerAbstract {
                 if (!is_null($item)) {
                     $item->setId($this->getId());
                     $object = $item->handle();
-                    $data = $this->getDisplay()->formatItem($object);
+                    $data = $this->getDisplay()->displayItem($object);
                 }
             }
 
@@ -87,7 +87,7 @@ abstract class ManagerAbstract {
             $collection = $this->getCollection();
             if (!is_null($collection)) {
                 $objects = $collection->handle();
-                $data = $this->getDisplay()->formatCollection($objects);
+                $data = $this->getDisplay()->displayCollection($objects);
             }
 
             // No collection found & no item id provided, throw exception
