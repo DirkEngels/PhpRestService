@@ -4,7 +4,7 @@ namespace PhpRestService\Application;
 
 use PhpRestService\Http;
 use PhpRestService\Resource;
-use PhpRestService\Resource\Representation;
+use PhpRestService\Resource\Format;
 
 class Service extends ApplicationAbstract implements ApplicationInterface {
 
@@ -68,16 +68,16 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
     protected function _renderOutput($resource) {
         \PhpRestService\Logger::get()->log('Rendering resource: GET: ' . get_class($resource), \Zend_Log::INFO);
 
-        // Representation
+        // Format
         $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
         $response = new \PhpRestService\Http\Response();
         switch ($format) {
             case 'xml':
-                $representation = new Representation\Xml($response);
+                $representation = new Format\Xml($response);
                 break;
             case 'json':
             default:
-                $representation = new Representation\Json($response);
+                $representation = new Format\Json($response);
                 break;
         }
 
