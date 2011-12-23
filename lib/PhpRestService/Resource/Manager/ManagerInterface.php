@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource;
+namespace PhpRestService\Resource\Manager;
 
-interface ResourceInterface {
+interface ManagerInterface {
 
     public function getCollection();
     public function setCollection($collection);

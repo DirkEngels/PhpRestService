@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpRestService\Resource;
+namespace PhpRestService\Resource\Manager;
 
-abstract class ResourceAbstract {
+abstract class ManagerAbstract {
 
     protected $_formatter;
     protected $_collection;
