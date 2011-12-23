@@ -32,6 +32,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $matches = array();
         if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
             // Item resource
+            \PhpRestService\Logger::get()->log('Trying item resource: GET: ' . $resourceName, \Zend_Log::INFO);
             if (class_exists($baseClass . '\\Item')) {
                 $resource->setId($matches[0]);
                 \PhpRestService\Logger::get()->log('Loading item resource: GET: ' . $resourceName, \Zend_Log::INFO);
@@ -41,6 +42,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
                 $resource->setItem($item);
             }
         } else {
+            \PhpRestService\Logger::get()->log('Trying collection resource: GET: ' . $baseClass . '\\Collection', \Zend_Log::INFO);
             // Collection resource
             if (class_exists($baseClass . '\\Collection')) {
                 \PhpRestService\Logger::get()->log('Loading collection resource: GET: ' . $resourceName, \Zend_Log::INFO);
@@ -79,14 +81,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
                 break;
         }
 
-        try {
-            $data = $resource->handle();
-        } catch (\Exception $e) {
-            $data = array(
-                'code' => $e->getCode(),
-                'message' => $e->getMessage()
-            );
-        }
+        $data = $resource->handle();
         $this->_response = $representation->render($data);
     }
 
