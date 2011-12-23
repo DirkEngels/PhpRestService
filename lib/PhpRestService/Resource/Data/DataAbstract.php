@@ -14,27 +14,27 @@ abstract class DataAbstract {
     }
 
     public function head() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function options() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function get() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function post() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function put() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function delete() {
-        throw new \Exception('HTTP Method not implemented');
+        throw new \Exception('HTTP Method not implemented', 404);
     }
 
     public function handle() {
