@@ -15,7 +15,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
     protected function _loadResource($router) {
         $resourceName = $router->getResource();
 
-        $resource = new \PhpRestService\Resource\ResourceDefault();
+        $resourceManager = new \PhpRestService\Resource\Manager\ManagerDefault();
         $baseClass = '\\App\\Service\\' . $resourceName;
 
         // Set formatter
@@ -27,19 +27,19 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
             \PhpRestService\Logger::get()->log('Setting default formatter: ' . $formatterClass, \Zend_Log::INFO);
         }
         $formatter = new $formatterClass();
-        $resource->setFormatter($formatter);
+        $resourceManager->setFormatter($formatter);
 
         $matches = array();
         if (preg_match('#/([0-9]+)$#', ($_SERVER['REQUEST_URI']), $matches)) {
             // Item resource
             \PhpRestService\Logger::get()->log('Trying item resource: GET: ' . $resourceName, \Zend_Log::INFO);
             if (class_exists($baseClass . '\\Item')) {
-                $resource->setId($matches[0]);
+                $resourceManager->setId($matches[0]);
                 \PhpRestService\Logger::get()->log('Loading item resource: GET: ' . $resourceName, \Zend_Log::INFO);
 
                 $itemClass = $baseClass . '\\Item';
                 $item = new $itemClass();
-                $resource->setItem($item);
+                $resourceManager->setItem($item);
             }
         } else {
             \PhpRestService\Logger::get()->log('Trying collection resource: GET: ' . $baseClass . '\\Collection', \Zend_Log::INFO);
@@ -49,11 +49,11 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
                 $collectionClass = $baseClass . '\\Collection';
                 $collection = new $collectionClass();
-                $resource->setCollection($collection);
+                $resourceManager->setCollection($collection);
             }
         }
 
-        return $resource;
+        return $resourceManager;
     }
 
 
