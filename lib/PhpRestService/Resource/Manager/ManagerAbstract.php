@@ -5,18 +5,32 @@ use \PhpRestService\Resource\Display;
 
 abstract class ManagerAbstract {
 
+    protected $_name;
+    protected $_id;
+
     protected $_data;
     protected $_display;
     protected $_format;
 
-    protected $_name;
-    protected $_id;
-
     protected $_request;
     protected $_response;
 
-    public function __construct() {
-        
+    public function getName() {
+        return $this->_name;
+    }
+
+    public function setName($name) {
+        $this->_name = $name;
+        return $this;
+    }
+
+    public function getId() {
+        return $this->_id;
+    }
+
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
     }
 
     public function getData() {
@@ -43,24 +57,6 @@ abstract class ManagerAbstract {
 
     public function setFormat($format) {
         $this->_format = $format;
-        return $this;
-    }
-
-    public function getName() {
-        return $this->_name;
-    }
-
-    public function setName($name) {
-        $this->_name = $name;
-        return $this;
-    }
-
-    public function getId() {
-        return $this->_id;
-    }
-
-    public function setId($id) {
-        $this->_id = $id;
         return $this;
     }
 
@@ -91,6 +87,7 @@ abstract class ManagerAbstract {
 
         try {
             $objects = $this->getData()->handle();
+            
             if (is_object($objects)) {
                 $data = $this->getDisplay()->displayItem($objects);
             } else {
