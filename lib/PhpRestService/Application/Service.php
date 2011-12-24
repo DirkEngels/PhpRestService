@@ -36,17 +36,17 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $response = new \PhpRestService\Http\Response();
         switch ($format) {
             case 'xml':
-                $representation = new Format\Xml($response);
+                $format = new Format\Xml($response);
                 break;
             case 'json':
             default:
-                $representation = new Format\Json($response);
+                $format = new Format\Json($response);
                 break;
         }
 
         $data = $resource->handle();
 
-        $this->_response = $representation->render($data);
+        $this->_response = $format->render($data);
     }
 
 
@@ -59,7 +59,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         // Load resource
         $resource = $this->_loadResource($route);
 
-        // Init representation
+        // Init format
         $this->_renderOutput($resource);
 
         return $this->_response->send();
