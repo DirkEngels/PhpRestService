@@ -1,7 +1,6 @@
 <?php
 /**
  * @package PhpRestService
- * @subpackage Daemon
  * @copyright Copyright (C) 2011 Dirk Engels Websolutions. All rights reserved.
  * @author Dirk Engels <d.engels@dirkengels.com>
  * @license https://github.com/DirkEngels/PhpRestService/blob/master/doc/LICENSE
@@ -49,7 +48,7 @@ class Config {
 
     /**
      * Singleton getter
-     * @return \PhpRestService\Daemon\Config
+     * @return \PhpRestService\Config
      */
     public static function get($configFiles = array()) {
         if (count($configFiles) > 0) {
@@ -123,13 +122,13 @@ class Config {
 //            }
 //        }
 
-        // Daemon option
+        // Service option
         if (is_null($source)) {
             try {
                 $value = $this->_getRecursiveKey('service.' . $option);
                 $source = 'service';
             } catch (\Exception $e) {
-                Logger::log('DAEMON ' . $e->getMessage(), \Zend_Log::DEBUG);
+                Logger::log('SERVICE ' . $e->getMessage(), \Zend_Log::DEBUG);
             }
         }
 
