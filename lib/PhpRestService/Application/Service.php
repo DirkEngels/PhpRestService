@@ -58,11 +58,8 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
         // Load resource
         $resource = $this->_loadResource($route);
-
-        // Init format
-        $this->_renderOutput($resource);
-
-        return $this->_response->send();
+        $response = $resource->handle();
+        $response->send();
     }
 
 }
