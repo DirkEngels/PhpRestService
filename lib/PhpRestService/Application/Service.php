@@ -13,9 +13,9 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
 
     protected function _loadResource($router) {
-        $resourceName = $router->getResource();
-
-        $resourceManager = \PhpRestService\Resource\Factory::get($resourceName);
+        $resourceManager = \PhpRestService\Resource\Factory::get(
+            $router->getResource()
+        );
         return $resourceManager;
     }
 
@@ -45,6 +45,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         }
 
         $data = $resource->handle();
+
         $this->_response = $representation->render($data);
     }
 
