@@ -4,6 +4,17 @@ namespace PhpRestService\Resource\Display;
 
 abstract class DisplayAbstract {
 
+    protected $_id;
+
+    public function getId() {
+        return $this->_id;
+    }
+
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
+    }
+
     public function dataUrl($object) {
         $data = array();
         if (method_exists($object, 'getId')) {
@@ -38,6 +49,17 @@ abstract class DisplayAbstract {
             $data[] = $this->displayItem($object, $extended);
         }
         return $data;
+    }
+
+    public function handle($inputData = array(), $extended = NULL) {
+        if ($this->getId()) {
+            $extended = (!is_null($extended)) ? $extended : TRUE;
+            $display = $this->displayItem($inputData, $extended);
+        } else {
+            $extended = (!is_null($extended)) ? $extended : FALSE;
+            $display = $this->displayCollection($inputData, $extended);
+        }
+        return $display;
     }
 
 }
