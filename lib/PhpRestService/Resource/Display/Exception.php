@@ -22,7 +22,7 @@ class Exception extends DisplayAbstract implements DisplayInterface {
     }
 
     public function handle($inputData = array(), $extended = NULL) {
-        return parent::displayItem($inputData);
+        return parent::displayItem($inputData, $extended);
     }
 
 }
