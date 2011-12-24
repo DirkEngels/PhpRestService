@@ -16,8 +16,8 @@ class Factory {
      */
     public static function get($resourceName) {
         $msg = 'Task Factory: ' . $resourceName;
-        \PhpRestService\Logger::get()->log($msg, \Zend_Log::DEBUG);
-        \PhpRestService\Logger::get()->log('----------', \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log('----------', \Zend_Log::DEBUG);
 
         // Base Manager
         $manager = self::getManager($resourceName);
@@ -37,7 +37,7 @@ class Factory {
             self::getComponentType($resourceName, self::TYPE_FORMAT)
         );
 
-        \PhpRestService\Logger::get()->log('----------', \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log('----------', \Zend_Log::DEBUG);
         return $manager;
     }
 
@@ -81,10 +81,30 @@ class Factory {
     /**
      * Returns the manager timer for the specified resource
      * @param string $resourceName
-     * @return \PhpRestService\Resource\Manager\Timer\TimerAbstract
+     * @return \PhpRestService\Resource\Manager\Data\DataAbstract
      */
-    public static function getManagerTimer($resourceName) {
-        return self::getComponentType($resourceName, self::TYPE_TRIGGER);
+    public static function getManagerData($resourceName) {
+        return self::getComponentType($resourceName, self::TYPE_DATA);
+    }
+
+
+    /**
+     * Returns the manager timer for the specified resource
+     * @param string $resourceName
+     * @return \PhpRestService\Resource\Manager\Display\DisplayAbstract
+     */
+    public static function getManagerDisplay($resourceName) {
+        return self::getComponentType($resourceName, self::TYPE_DISPLAY);
+    }
+
+
+    /**
+     * Returns the manager timer for the specified resource
+     * @param string $resourceName
+     * @return \PhpRestService\Resource\Manager\Format\FormatAbstract
+     */
+    public static function getManagerFormat($resourceName) {
+        return self::getComponentType($resourceName, self::TYPE_FORMAT);
     }
 
 
@@ -118,11 +138,11 @@ class Factory {
         $className = self::_getClassName($resourceName, $objectType);
 
         $msg = 'Trying ' . $objectType . ' class component: ' . self::_getClassName($resourceName, $objectType);
-        \PhpRestService\Logger::get()->log($msg, \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         if (class_exists($className)) {
             $msg = 'Found ' . $objectType . ' class component: ' . $className;
-            \PhpRestService\Logger::get()->log($msg, \Zend_Log::NOTICE);
+            \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             return new $className();
         }
         return NULL;
@@ -138,7 +158,7 @@ class Factory {
      */
     protected static function _getObjectConfig($resourceName, $objectType) {
         $msg = 'Trying ' . $objectType . ' config component: ' . $resourceName;
-        \PhpRestService\Logger::get()->log($msg, \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         $configType = ucfirst(
             \PhpRestService\Config::get()->getOptionValue(
@@ -154,11 +174,11 @@ class Factory {
         $objectClassName = self::_getObjectConfigNamespace($objectType) . '\\' . $configType;
 
         $msg = 'Testing class (' . $resourceName . '): ' . $objectClassName;
-        \PhpRestService\Logger::get()->log($msg, \Zend_Log::DEBUG);
+        \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         if (class_exists($objectClassName, true)) {
             $msg = 'Found ' . $objectType . ' config component: ' . $resourceName;
-            \PhpRestService\Logger::get()->log($msg, \Zend_Log::NOTICE);
+            \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             $object = new $objectClassName();
             return $object;
         }
@@ -168,7 +188,7 @@ class Factory {
 
 
     protected static function _getObjectConfigNamespace($objectType) {
-        $nameSpace = '\\PhpTaskDaemon\\Task\\';
+        $nameSpace = '\\PhpRestService\\Resource\\';
         switch($objectType) {
             case 'data':
                 $nameSpace .= 'Data';
