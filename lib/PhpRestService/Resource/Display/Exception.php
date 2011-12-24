@@ -21,4 +21,8 @@ class Exception extends DisplayAbstract implements DisplayInterface {
         return $extended;
     }
 
+    public function handle($inputData = array(), $extended = NULL) {
+        return parent::displayItem($inputData);
+    }
+
 }
