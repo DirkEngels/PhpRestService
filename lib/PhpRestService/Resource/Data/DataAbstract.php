@@ -4,13 +4,22 @@ namespace PhpRestService\Resource\Data;
 
 abstract class DataAbstract {
 
+    protected $_id;
     protected $_request;
-    protected $_response;
 
     public function __construct($request = NULL) {
         if (!is_null($request)) {
             $this->setRequest($request);
         }
+    }
+
+    public function getId() {
+        return $this->_id;
+    }
+
+    public function setId($id) {
+        $this->_id = $id;
+        return $this;
     }
 
     public function head() {
