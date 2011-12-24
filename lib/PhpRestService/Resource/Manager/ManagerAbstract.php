@@ -79,26 +79,36 @@ abstract class ManagerAbstract {
     }
 
     public function handle() {
-        $data = array();
+        try {
+            $sourceData = $this->handleData();
+            $displayData = $this->handleDisplay($sourceData);
+        } catch (\Exception $exception) {
+            $this->setDisplay(
+                new \PhpRestService\Resource\Display\Exception()
+            );
+            $displayData = $this->handleDisplay($exception);
+        }
+        return $this->handleFormat($displayData);
+    }
 
+    protected function handleData() {
         if ($this->getId()) {
             $this->getData()->setId($this->getId());
         }
-
-        try {
-            $objects = $this->getData()->handle();
-            
-            if (is_object($objects)) {
-                $data = $this->getDisplay()->displayItem($objects);
-            } else {
-                $data = $this->getDisplay()->displayCollection($objects);
-            }
-
-        } catch (\Exception $e) {
-            $display = new Display\Exception();
-            $data = $display->displayItem($e);
-        }
-
-        return $data;
+        return $this->getData()->handle();
     }
+
+    protected function handleDisplay($sourceData = NULL) {
+        if ($this->getId()) {
+            $this->getDisplay()->setId($this->getId());
+        }
+        $display = $this->getDisplay()->handle($sourceData);
+
+        return $display;
+    }
+
+    protected function handleFormat($displayData) {
+        return $this->getFormat()->render($displayData);
+    }
+
 }
