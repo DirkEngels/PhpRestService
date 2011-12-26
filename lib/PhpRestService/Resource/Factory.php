@@ -15,7 +15,7 @@ class Factory {
      * @return \PhpRestService\Resource\Manager\ManagerAbstract
      */
     public static function get($resourceName) {
-        $msg = 'Task Factory: ' . $resourceName;
+        $msg = 'FACTORY: Getting resource: ' . $resourceName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
         \PhpRestService\Logger::log('----------', \Zend_Log::DEBUG);
 
@@ -24,7 +24,8 @@ class Factory {
 
         // Data
         $manager->setData(
-            self::getComponentType($resourceName, self::TYPE_DATA)
+            new \App\Service\Blog\Post\Collection()
+//            self::getComponentType($resourceName, self::TYPE_DATA)
         );
 
         // Display
@@ -79,14 +80,22 @@ class Factory {
 
 
     /**
-     * Returns the manager timer for the specified resource
+     * Returns the manager data collection for the specified resource
      * @param string $resourceName
      * @return \PhpRestService\Resource\Manager\Data\DataAbstract
      */
-    public static function getManagerData($resourceName) {
-        return self::getComponentType($resourceName, self::TYPE_DATA);
+    public static function getManagerDataCollection($resourceName) {
+        return self::getComponentType($resourceName, self::TYPE_DATA_COLLECTION);
     }
 
+    /**
+     * Returns the manager data item for the specified resource
+     * @param string $resourceName
+     * @return \PhpRestService\Resource\Manager\Data\DataAbstract
+     */
+    public static function getManagerDataItem($resourceName, $id) {
+        return self::getComponentType($resourceName, self::TYPE_DATA_ITEM);
+    }
 
     /**
      * Returns the manager timer for the specified resource
@@ -137,11 +146,11 @@ class Factory {
     protected static function _getObjectClass($resourceName, $objectType) {
         $className = self::_getClassName($resourceName, $objectType);
 
-        $msg = 'Trying ' . $objectType . ' class component: ' . self::_getClassName($resourceName, $objectType);
+        $msg = 'FACTORY: Trying ' . $objectType . ' class component: ' . $className;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         if (class_exists($className)) {
-            $msg = 'Found ' . $objectType . ' class component: ' . $className;
+            $msg = 'FACTORY: Found ' . $objectType . ' class component: ' . $className;
             \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             return new $className();
         }
@@ -157,7 +166,7 @@ class Factory {
      * @return null|stdClass
      */
     protected static function _getObjectConfig($resourceName, $objectType) {
-        $msg = 'Trying ' . $objectType . ' config component: ' . $resourceName;
+        $msg = 'FACTORY: Trying ' . $objectType . ' config component: ' . $resourceName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         $configType = ucfirst(
@@ -173,11 +182,11 @@ class Factory {
 
         $objectClassName = self::_getObjectConfigNamespace($objectType) . '\\' . $configType;
 
-        $msg = 'Testing class (' . $resourceName . '): ' . $objectClassName;
+//        $msg = 'FACTORY: Testing class (' . $resourceName . '): ' . $objectClassName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         if (class_exists($objectClassName, true)) {
-            $msg = 'Found ' . $objectType . ' config component: ' . $resourceName;
+            $msg = 'FACTORY: Found ' . $objectType . ' config component: ' . $resourceName;
             \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             $object = new $objectClassName();
             return $object;
@@ -214,7 +223,7 @@ class Factory {
      * @return null|StdClass
      */
     public static function _getObjectDefault($resourceName, $objectType) {
-        $msg = 'Defaulting ' . $objectType . ' component: ' . $resourceName . ' => Default';
+        $msg = 'FACTORY: Defaulting ' . $objectType . ' component: ' . $resourceName . ' => Default';
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         switch($objectType) {
