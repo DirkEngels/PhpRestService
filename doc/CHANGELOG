@@ -21,6 +21,12 @@ Version 1.0 (roadmap)
     - Add HTTP status codes
     - Accept
     - Authorization
+- Implement attribute validators
+    - Integer
+    - Text
+    - Email
+    - Date
+    - ForeignKey
 
 
 Version 0.3 (planned)
