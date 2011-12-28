@@ -2,6 +2,8 @@
 
 namespace PhpRestService\Resource\Display;
 
+use PhpRestService\Logger;
+
 abstract class DisplayAbstract {
 
     protected $_id;
@@ -45,8 +47,12 @@ abstract class DisplayAbstract {
 
     public function displayCollection($objects, $extended = false) {
         $data = array();
-        foreach($objects as $object) {
-            $data[] = $this->displayItem($object, $extended);
+        if (is_array($objects)) {
+            foreach($objects as $object) {
+                $data[] = $this->displayItem($object, $extended);
+            }
+        } else {
+            Logger::log("Error display items", \Zend_Log::DEBUG);
         }
         return $data;
     }
