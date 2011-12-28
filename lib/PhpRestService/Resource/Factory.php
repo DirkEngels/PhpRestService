@@ -33,7 +33,7 @@ class Factory {
 
         // Display
         $manager->setDisplay(
-            self::getComponentType($resourceName, self::TYPE_DISPLAY)
+            self::getManagerDisplay($resourceName, $resourceKey)
         );
 
         // Format
@@ -109,8 +109,12 @@ class Factory {
      * @param string $resourceName
      * @return \PhpRestService\Resource\Manager\Display\DisplayAbstract
      */
-    public static function getManagerDisplay($resourceName) {
-        return self::getComponentType($resourceName, self::TYPE_DISPLAY);
+    public static function getManagerDisplay($resourceName, $id = NULL) {
+        $display = self::getComponentType($resourceName, self::TYPE_DISPLAY);
+        if (!is_null($id)) {
+            $display->setId($id);
+        }
+        return $display;
     }
 
 
