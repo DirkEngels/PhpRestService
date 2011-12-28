@@ -6,8 +6,8 @@ abstract class FormatAbstract {
 
     protected $_response;
 
-    public function __construct($response) {
-        $this->_response = $response;
+    public function __construct() {
+        $this->_response = new \PhpRestService\Http\Response();
     }
 
 }

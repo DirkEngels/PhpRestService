@@ -8,33 +8,45 @@ Version 1.0 (roadmap)
 - Add resource authentication
 - Create documentation
 - Create website
-- Add Application Config class
-    - Implement service global config options
-    - Implement resource specific config options
 - Add Application Loader class
     - Implement resource loader
-- Add Application Router class
-    - Default
-    - Resource
 - Implement HTTP Request class
 - Implement HTTP Header class
     - Add HTTP status codes
     - Accept
     - Authorization
+- Implement attribute validators
+    - Integer
+    - Text
+    - Email
+    - Date
+    - ForeignKey
 
 
-Version 0.3 (planned)
+Version 0.4 (planned)
 ---------------------
+- Add Application Router class
+    - Default
+    - Resource
+- Add Application Config class
+    - Implement service global config options
+    - Implement resource specific config options
+- Implement HTTP Header class
+    - Add HTTP status codes
+    - Accept
+
+
+Version 0.3 (28-12-2011)
+========================
 + Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
 + Rename formatter to display [refactor-display]
 + Rename representation to format [refactor-format]
 + Refactor Resource class to use a manager class [concept-resource-manager]
-- Create a resource factory class [concept-resource-factory]
-- Rename library resource to rest [refactor-rename-rest]
++ Create a resource factory class [concept-resource-factory]
 
 
 Version 0.2 (22-12-2011)
-========================
+------------------------
 + Add an application abstract class
 + Create demo resource: blog post
 + Implement HTTP headers
