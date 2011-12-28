@@ -25,7 +25,7 @@ Version 1.0 (roadmap)
 
 Version 0.4 (planned)
 ---------------------
-- Setup unit test structure [concept-unit-tests]
++ Setup unit test structure [concept-unit-tests]
 - Add Application Router class
     - Default
     - Resource
