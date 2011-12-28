@@ -8,7 +8,8 @@ abstract class ManagerAbstract {
     protected $_name;
     protected $_id;
 
-    protected $_data;
+    protected $_collection;
+    protected $_item;
     protected $_display;
     protected $_format;
 
@@ -33,12 +34,21 @@ abstract class ManagerAbstract {
         return $this;
     }
 
-    public function getData() {
-        return $this->_data;
+    public function getCollection() {
+        return $this->_collection;
     }
 
-    public function setData($data) {
-        $this->_data = $data;
+    public function setCollection($collection) {
+        $this->_collection = $collection;
+        return $this;
+    }
+
+    public function getItem() {
+        return $this->_item;
+    }
+
+    public function setItem($item) {
+        $this->_item = $item;
         return $this;
     }
 
@@ -78,7 +88,11 @@ abstract class ManagerAbstract {
         return $this;
     }
 
-    public function handle() {
+    public function handle($id = NULL) {
+        if (!is_null($id)) {
+            $this->setId($id);
+        }
+
         try {
             $sourceData = $this->_handleData();
             $displayData = $this->_handleDisplay($sourceData);
@@ -93,9 +107,9 @@ abstract class ManagerAbstract {
 
     protected function _handleData() {
         if ($this->getId()) {
-            $this->getData()->setId($this->getId());
+            $this->getItem()->setId($this->getId());
         }
-        return $this->getData()->handle();
+        return $this->getCollection()->handle();
     }
 
     protected function _handleDisplay($sourceData = NULL) {
