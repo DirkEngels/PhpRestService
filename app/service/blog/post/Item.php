@@ -2,7 +2,9 @@
 
 namespace App\Service\Blog\Post;
 
-class Item extends \PhpRestService\Resource\Item\ItemAbstract implements \PhpRestService\Resource\Item\ItemInterface {
+use \PhpRestService\Resource\Data;
+
+class Item extends Data\Item implements Data\DataInterface {
 
     protected $_logic;
 

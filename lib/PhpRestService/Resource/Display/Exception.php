@@ -1,17 +1,10 @@
 <?php
 
-namespace PhpRestService\Resource\Formatter;
+namespace PhpRestService\Resource\Display;
 
-class Fields extends FormatterAbstract implements FormatterInterface {
+class Exception extends DisplayAbstract implements DisplayInterface {
 
-    public $_fieldsSimple = array(
-        'date', 'name', 'title', 
-    );
-    public $_fieldsExtended = array(
-        'content',
-    );
-
-    public static function dataBasic($object) {
+    public function dataBasic($object) {
         $data = array(
             'code' => $object->getCode(),
             'message' => $object->getMessage(),
@@ -19,13 +12,17 @@ class Fields extends FormatterAbstract implements FormatterInterface {
         return $data;
     }
 
-    public static function dataExtended($object) {
+    public function dataExtended($object) {
         $extended = array(
             'line' => $object->getLine(),
             'file' => $object->getFile(),
             'trace' => $object->getTrace(),
         );
         return $extended;
+    }
+
+    public function handle($inputData = array(), $extended = NULL) {
+        return parent::displayItem($inputData, $extended);
     }
 
 }

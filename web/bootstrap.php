@@ -50,16 +50,18 @@ function __autoloadPhpRestService($className) {
 }
 spl_autoload_register('__autoloadPhpRestService');
 
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Item/ItemInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/DataAbstract.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/DataInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/Collection.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Data/Item.php');
 
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionAbstract.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Collection/CollectionInterface.php');
 
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationAbstract.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/RepresentationInterface.php');
-include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Json.php');
-//include(LIBRARY_PATH . '/PhpRestService/Resource/Representation/Xml.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/FormatAbstract.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/FormatInterface.php');
+include(LIBRARY_PATH . '/PhpRestService/Resource/Format/Json.php');
+//include(LIBRARY_PATH . '/PhpRestService/Resource/Format/Xml.php');
 
 
 include(APPLICATION_PATH . '/domain/logic/blog/Post.php');
@@ -70,10 +72,10 @@ include(APPLICATION_PATH . '/domain/model/blog/Post.php');
 include(APPLICATION_PATH . '/domain/model/blog/Member.php');
 include(APPLICATION_PATH . '/domain/model/blog/Comment.php');
 
-include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
-include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
+//include(APPLICATION_PATH . '/service/daemon/single/daemon/Collection.php');
+//include(APPLICATION_PATH . '/service/daemon/single/task/Item.php');
 
-include(APPLICATION_PATH . '/service/blog/post/Formatter.php');
+include(APPLICATION_PATH . '/service/blog/post/Display.php');
 include(APPLICATION_PATH . '/service/blog/post/Collection.php');
 include(APPLICATION_PATH . '/service/blog/post/Item.php');
 

@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Service\Blog\Post;
+use \PhpRestService\Resource\Display as ResourceDisplay;
 
-class Formatter extends \PhpRestService\Resource\Formatter\FormatterAbstract implements \PhpRestService\Resource\Formatter\FormatterInterface {
+class Display extends ResourceDisplay\DisplayAbstract implements ResourceDisplay\DisplayInterface {
 
-    public static function dataBasic($object) {
+    public function dataBasic($object) {
         $data = array(
-            'date' => $object->getDateCreated(),
             'title' => $object->getTitle(),
+            'date' => $object->getDateCreated(),
         );
         return $data;
     }
 
-    public static function dataExtended($object) {
+    public function dataExtended($object) {
         $extended = array(
             'content' => $object->getContent(),
             'comments' => $object->getComments(),
