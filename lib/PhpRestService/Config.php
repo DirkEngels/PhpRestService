@@ -1,7 +1,6 @@
 <?php
 /**
  * @package PhpRestService
- * @subpackage Daemon
  * @copyright Copyright (C) 2011 Dirk Engels Websolutions. All rights reserved.
  * @author Dirk Engels <d.engels@dirkengels.com>
  * @license https://github.com/DirkEngels/PhpRestService/blob/master/doc/LICENSE
@@ -49,7 +48,7 @@ class Config {
 
     /**
      * Singleton getter
-     * @return \PhpRestService\Daemon\Config
+     * @return \PhpRestService\Config
      */
     public static function get($configFiles = array()) {
         if (count($configFiles) > 0) {
@@ -57,7 +56,7 @@ class Config {
         }
 
         if (!self::$_instance) {
-            Logger::log("Creating new config object", \Zend_Log::DEBUG);
+            Logger::log("CONFIG: Creating new config object", \Zend_Log::DEBUG);
             self::$_instance = new self($configFiles);
         }
 
@@ -104,32 +103,13 @@ class Config {
         $value = NULL;
         $source = NULL;
 
-//        // Task option
-//        if (!is_null($taskName)) {
-//            try {
-//                $value = $this->_getRecursiveKey('tasks.' . $taskName . '.' . $option);
-//                $source = 'task';
-//            } catch (\Exception $e) {
-//                Logger::log('TASK SPECIFIC ' . $e->getMessage(), \Zend_Log::DEBUG);
-//            }
-//        }
-//
-//        if (is_null($source)) {
-//            try {
-//                $value = $this->_getRecursiveKey('tasks.defaults.' . $option);
-//                $source = 'default';
-//            } catch (\Exception $e) {
-//                Logger::log('TASK DEFAULT ' . $e->getMessage(), \Zend_Log::DEBUG);
-//            }
-//        }
-
-        // Daemon option
+        // Service option
         if (is_null($source)) {
             try {
                 $value = $this->_getRecursiveKey('service.' . $option);
                 $source = 'service';
             } catch (\Exception $e) {
-                Logger::log('DAEMON ' . $e->getMessage(), \Zend_Log::DEBUG);
+                Logger::log('CONFIG: SERVICE ' . $e->getMessage(), \Zend_Log::DEBUG);
             }
         }
 
@@ -139,11 +119,11 @@ class Config {
                 $value = $this->_getRecursiveKey($option);
                 $source = 'fallback';
             } catch (\Exception $e) {
-                Logger::log('FALLBACK ' . $e->getMessage(), \Zend_Log::DEBUG);
+                Logger::log('CONFIG: FALLBACK ' . $e->getMessage(), \Zend_Log::DEBUG);
             }
         }
 
-        Logger::log('Config option result: ' . $option . ' => ' . $value . ' (' . $source . ')', \Zend_Log::DEBUG);
+        Logger::log('CONFIG: Config option result: ' . $option . ' => ' . $value . ' (' . $source . ')', \Zend_Log::DEBUG);
         $out = array($source, $value);
         return $out;
     }
@@ -180,9 +160,9 @@ class Config {
      */
     protected function _initConfig($configFiles) {
         foreach($configFiles as $configFile) {
-            Logger::log("Trying config file: " . $configFile, \Zend_Log::DEBUG);
+            Logger::log("CONFIG: Trying config file: " . $configFile, \Zend_Log::DEBUG);
             if (!file_exists($configFile)) {
-                Logger::log("Config file does not exists: " . $configFile, \Zend_Log::ERR);
+                Logger::log("CONFIG: Config file does not exists: " . $configFile, \Zend_Log::ERR);
                 continue;
             }
 
@@ -204,7 +184,7 @@ class Config {
             }
             // Register configurations file
             array_push($this->_files, $configFile);
-            Logger::log("Loaded config file: " . $configFile, \Zend_Log::INFO);
+            Logger::log("CONFIG: Loaded config file: " . $configFile, \Zend_Log::INFO);
         }
 
         // At least one configuration file must be loaded.

@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Service\Blog\Post;
+use \PhpRestService\Resource\Display as ResourceDisplay;
 
-class Display extends \PhpRestService\Resource\Display\DisplayAbstract implements \PhpRestService\Resource\Display\DisplayInterface {
+class Display extends ResourceDisplay\DisplayAbstract implements ResourceDisplay\DisplayInterface {
 
     public function dataBasic($object) {
         $data = array(
-            'date' => $object->getDateCreated(),
             'title' => $object->getTitle(),
+            'date' => $object->getDateCreated(),
         );
         return $data;
     }
