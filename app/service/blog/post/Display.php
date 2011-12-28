@@ -7,6 +7,7 @@ class Display extends ResourceDisplay\DisplayAbstract implements ResourceDisplay
 
     public function dataBasic($object) {
         $data = array(
+            'id' => $object->getId(),
             'title' => $object->getTitle(),
             'date' => $object->getDateCreated(),
         );
