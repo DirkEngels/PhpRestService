@@ -14,8 +14,10 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
     protected function _loadResource($router) {
         $resourceManager = \PhpRestService\Resource\Factory::get(
-            $router->getResource()
+            $router->_resourceName,
+            $router->_resourceKey
         );
+        $resourceManager->setId($router->_resourceKey);
         return $resourceManager;
     }
 
