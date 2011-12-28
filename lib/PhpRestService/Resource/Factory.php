@@ -4,7 +4,8 @@ namespace PhpRestService\Resource;
 class Factory {
     const TYPE_MANAGER = 'manager';
 
-    const TYPE_DATA = 'data';
+    const TYPE_COLLECTION = 'collection';
+    const TYPE_ITEM = 'item';
     const TYPE_DISPLAY = 'display';
     const TYPE_FORMAT = 'format';
 
@@ -23,9 +24,11 @@ class Factory {
         $manager = self::getManager($resourceName);
 
         // Data
-        $manager->setData(
-            new \App\Service\Blog\Post\Collection()
-//            self::getComponentType($resourceName, self::TYPE_DATA)
+        $manager->setCollection(
+            self::getComponentType($resourceName, self::TYPE_COLLECTION)
+        );
+        $manager->setItem(
+            self::getComponentType($resourceName, self::TYPE_ITEM)
         );
 
         // Display
@@ -199,7 +202,10 @@ class Factory {
     protected static function _getObjectConfigNamespace($objectType) {
         $nameSpace = '\\PhpRestService\\Resource\\';
         switch($objectType) {
-            case 'data':
+            case 'collection':
+                $nameSpace .= 'Data';
+                break;
+            case 'item':
                 $nameSpace .= 'Data';
                 break;
             case 'display':
