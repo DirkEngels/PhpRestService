@@ -26,9 +26,11 @@ Version 1.0 (roadmap)
 Version 0.4 (planned)
 ---------------------
 + Setup unit test structure [concept-unit-tests]
-- Add Application Router class
-    - Default
-    - Resource
++ Refactor simple router class
+- Implement http methods [feature-http-methods]
+    + POST
+    - PUT
+    - DELETE
 - Add Application Config class
     - Implement service global config options
     - Implement resource specific config options
