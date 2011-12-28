@@ -80,25 +80,25 @@ abstract class ManagerAbstract {
 
     public function handle() {
         try {
-            $sourceData = $this->handleData();
-            $displayData = $this->handleDisplay($sourceData);
+            $sourceData = $this->_handleData();
+            $displayData = $this->_handleDisplay($sourceData);
         } catch (\Exception $exception) {
             $this->setDisplay(
                 new \PhpRestService\Resource\Display\Exception()
             );
-            $displayData = $this->handleDisplay($exception);
+            $displayData = $this->_handleDisplay($exception);
         }
-        return $this->handleFormat($displayData);
+        return $this->_handleFormat($displayData);
     }
 
-    protected function handleData() {
+    protected function _handleData() {
         if ($this->getId()) {
             $this->getData()->setId($this->getId());
         }
         return $this->getData()->handle();
     }
 
-    protected function handleDisplay($sourceData = NULL) {
+    protected function _handleDisplay($sourceData = NULL) {
         if ($this->getId()) {
             $this->getDisplay()->setId($this->getId());
         }
@@ -107,7 +107,7 @@ abstract class ManagerAbstract {
         return $display;
     }
 
-    protected function handleFormat($displayData) {
+    protected function _handleFormat($displayData) {
         return $this->getFormat()->render($displayData);
     }
 
