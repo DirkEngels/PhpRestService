@@ -93,16 +93,24 @@ abstract class ManagerAbstract {
             $this->setId($id);
         }
 
-        try {
-            $sourceData = $this->_handleData();
-            $displayData = $this->_handleDisplay($sourceData);
-        } catch (\Exception $exception) {
-            $this->setDisplay(
-                new \PhpRestService\Resource\Display\Exception()
-            );
-            $displayData = $this->_handleDisplay($exception);
+        $output = '';
+        $data = $this->_handleData();
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'DELETE':
+                break;
+            case 'GET':
+            default:
+                try {
+                    $displayData = $this->_handleDisplay($data);
+                } catch (\Exception $exception) {
+                    $this->setDisplay(
+                        new \PhpRestService\Resource\Display\Exception()
+                    );
+                    $displayData = $this->_handleDisplay($exception);
+                }
+                $output = $this->_handleFormat($displayData);
         }
-        return $this->_handleFormat($displayData);
+        return $output;
     }
 
     protected function _handleData() {
