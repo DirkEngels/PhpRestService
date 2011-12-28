@@ -21,7 +21,7 @@ abstract class DisplayAbstract {
         $data = array();
         if (method_exists($object, 'getId')) {
             $id = $object->getId();
-            if (empty($id)) {
+            if (isset($id)) {
                 $data = array (
                     'id' => $object->getId(),
                     'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/blog/post/' . $object->getId(),
@@ -33,13 +33,12 @@ abstract class DisplayAbstract {
 
     public function displayItem($object, $extended = false) {
         // Basic data
-        $data = array_merge(
-            $this->dataUrl($object), 
-            $this->dataBasic($object)
-        );
+        $data = $this->dataBasic($object);
 
         if ($extended) {
             $data = array_merge($data, $this->dataExtended($object));
+        } else {
+            $data = array_merge($data, $this->dataUrl($object));
         }
 
         return $data;
