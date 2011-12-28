@@ -27,10 +27,10 @@ Version 0.4 (planned)
 ---------------------
 + Setup unit test structure [concept-unit-tests]
 + Refactor simple router class
-- Implement http methods [feature-http-methods]
++ Implement http methods [feature-http-methods]
     + POST
-    - PUT
-    - DELETE
+    + PUT
+    + DELETE
 - Add Application Config class
     - Implement service global config options
     - Implement resource specific config options
