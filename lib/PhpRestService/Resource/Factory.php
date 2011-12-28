@@ -171,7 +171,7 @@ class Factory {
 
         $configType = ucfirst(
             \PhpRestService\Config::get()->getOptionValue(
-                strtolower($objectType) . '.type', 
+                strtolower($objectType) . '.default', 
                 $resourceName
             )
         );
