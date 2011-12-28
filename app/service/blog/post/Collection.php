@@ -18,7 +18,7 @@ class Collection extends Data\Collection implements Data\DataInterface {
     }
 
     public function post() {
-        return $this->_logic->write($data);
+        return $this->_logic->write($_POST);
     }
 
 }
