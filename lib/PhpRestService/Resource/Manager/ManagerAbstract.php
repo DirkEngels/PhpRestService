@@ -108,6 +108,7 @@ abstract class ManagerAbstract {
     protected function _handleData() {
         if ($this->getId()) {
             $this->getItem()->setId($this->getId());
+            return $this->getItem()->handle();
         }
         return $this->getCollection()->handle();
     }
