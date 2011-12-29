@@ -29,7 +29,7 @@ Version 1.0 (roadmap)
 Version 0.4.1 (planned)
 ---------------------
 - Implement HTTP accept (format) header
-- Refactor passing request & response to resource components
+- Refactor passing request & response objects [refactor-request-response]
 - Add unit tests for resource components
     - display
     - manager
