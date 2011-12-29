@@ -24,6 +24,9 @@ class Item extends Data\Item implements Data\DataInterface {
     public function get() {
 
         $object = $this->_logic->find($this->_getId());
+        if (!is_object($object)) {
+            throw new \Exception('Object not found!', 404);
+        }
         return $object;
     }
 
@@ -33,6 +36,8 @@ class Item extends Data\Item implements Data\DataInterface {
     }
 
     public function delete() {
+        $this->getResponse()->getCode(201);
         return $this->_logic->delete($this->_getId());
     }
+
 }
