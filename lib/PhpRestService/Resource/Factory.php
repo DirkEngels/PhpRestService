@@ -241,8 +241,10 @@ class Factory {
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         switch($objectType) {
-            case 'data':
+            case 'collection':
                 return new \PhpRestService\Resource\Data\Collection();
+            case 'item':
+                return new \PhpRestService\Resource\Data\Item();
             case 'display':
                 return new \PhpRestService\Resource\Display\All();
             case 'format':

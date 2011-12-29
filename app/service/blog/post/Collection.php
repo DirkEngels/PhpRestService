@@ -18,6 +18,7 @@ class Collection extends Data\Collection implements Data\DataInterface {
     }
 
     public function post() {
+        $this->getResponse()->setCode(201);
         return $this->_logic->write($_POST);
     }
 

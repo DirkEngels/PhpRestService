@@ -10,13 +10,10 @@ class Json extends FormatAbstract implements FormatInterface {
 
     public function render($data) {
         $this->getResponse()
-            ->setCode(200)
             ->addHeader('Content-type', 'application/json')
             ->setBody(
                 \Zend_Json::encode($data)
             );
-
-        return $this->getResponse();
     }
 
 }

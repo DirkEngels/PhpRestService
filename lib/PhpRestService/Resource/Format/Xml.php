@@ -15,8 +15,6 @@ class Xml extends FormatAbstract implements FormatInterface {
         $this->getResponse()
             ->addHeader('Content-type', 'application/xml')
             ->setBody($xml->asXML());
-
-        return $this->getResponse();
     }
 
     protected function _appendArray(array $data, \SimpleXMLElement $xml) {
