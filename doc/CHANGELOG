@@ -21,23 +21,38 @@ Version 1.0 (roadmap)
     - Email
     - Date
     - ForeignKey
-
-
-Version 0.4 (planned)
----------------------
-- Add Application Router class
-    - Default
-    - Resource
 - Add Application Config class
     - Implement service global config options
     - Implement resource specific config options
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
+
+
+Version 0.4.1 (planned)
+---------------------
+- Implement HTTP accept (format) header
+- Refactor passing request & response to resource components
+- Add unit tests for resource components
+    - display
+    - manager
+    - factory
+
+
+Version 0.4 (29-12-2011)
+========================
++ Setup unit test structure [concept-unit-tests]
++ Refactor simple router class
++ Implement http methods [feature-http-methods]
+    + POST
+    + PUT
+    + DELETE
++ Add HTTP status codes
++ Add unit tests for resource components [concept-unit-tests]
+    + component
+    + data
+    + format
 
 
 Version 0.3 (28-12-2011)
-========================
+------------------------
 + Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
 + Rename formatter to display [refactor-display]
 + Rename representation to format [refactor-format]

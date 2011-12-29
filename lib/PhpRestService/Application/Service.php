@@ -14,8 +14,10 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
     protected function _loadResource($router) {
         $resourceManager = \PhpRestService\Resource\Factory::get(
-            $router->getResource()
+            $router->_resourceName,
+            $router->_resourceKey
         );
+        $resourceManager->setId($router->_resourceKey);
         return $resourceManager;
     }
 
@@ -25,28 +27,6 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $router = new \PhpRestService\Application\Router\Resource($_SERVER['REQUEST_URI']);
 
         return $router;
-    }
-
-
-    protected function _renderOutput($resource) {
-        \PhpRestService\Logger::get()->log('Rendering resource: GET: ' . get_class($resource), \Zend_Log::INFO);
-
-        // Format
-        $format = (isset($_REQUEST['format'])) ? $_REQUEST['format'] : 'json';
-        $response = new \PhpRestService\Http\Response();
-        switch ($format) {
-            case 'xml':
-                $format = new Format\Xml($response);
-                break;
-            case 'json':
-            default:
-                $format = new Format\Json($response);
-                break;
-        }
-
-        $data = $resource->handle();
-
-        $this->_response = $format->render($data);
     }
 
 

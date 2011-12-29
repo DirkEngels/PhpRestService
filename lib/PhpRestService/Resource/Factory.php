@@ -15,7 +15,7 @@ class Factory {
      * @param $resourceName
      * @return \PhpRestService\Resource\Manager\ManagerAbstract
      */
-    public static function get($resourceName) {
+    public static function get($resourceName, $resourceKey = NULL) {
         $msg = 'FACTORY: Getting resource: ' . $resourceName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
         \PhpRestService\Logger::log('----------', \Zend_Log::DEBUG);
@@ -28,12 +28,12 @@ class Factory {
             self::getComponentType($resourceName, self::TYPE_COLLECTION)
         );
         $manager->setItem(
-            self::getComponentType($resourceName, self::TYPE_ITEM)
+            self::getManagerDataItem($resourceName, $resourceKey)
         );
 
         // Display
         $manager->setDisplay(
-            self::getComponentType($resourceName, self::TYPE_DISPLAY)
+            self::getManagerDisplay($resourceName, $resourceKey)
         );
 
         // Format
@@ -88,7 +88,7 @@ class Factory {
      * @return \PhpRestService\Resource\Manager\Data\DataAbstract
      */
     public static function getManagerDataCollection($resourceName) {
-        return self::getComponentType($resourceName, self::TYPE_DATA_COLLECTION);
+        return self::getComponentType($resourceName, self::TYPE_COLLECTION);
     }
 
     /**
@@ -96,8 +96,12 @@ class Factory {
      * @param string $resourceName
      * @return \PhpRestService\Resource\Manager\Data\DataAbstract
      */
-    public static function getManagerDataItem($resourceName, $id) {
-        return self::getComponentType($resourceName, self::TYPE_DATA_ITEM);
+    public static function getManagerDataItem($resourceName, $id = NULL) {
+        $item = self::getComponentType($resourceName, self::TYPE_ITEM);
+        if (!is_null($id)) {
+            $item->setId($id);
+        }
+        return $item;
     }
 
     /**
@@ -105,8 +109,12 @@ class Factory {
      * @param string $resourceName
      * @return \PhpRestService\Resource\Manager\Display\DisplayAbstract
      */
-    public static function getManagerDisplay($resourceName) {
-        return self::getComponentType($resourceName, self::TYPE_DISPLAY);
+    public static function getManagerDisplay($resourceName, $id = NULL) {
+        $display = self::getComponentType($resourceName, self::TYPE_DISPLAY);
+        if (!is_null($id)) {
+            $display->setId($id);
+        }
+        return $display;
     }
 
 
@@ -233,8 +241,10 @@ class Factory {
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         switch($objectType) {
-            case 'data':
+            case 'collection':
                 return new \PhpRestService\Resource\Data\Collection();
+            case 'item':
+                return new \PhpRestService\Resource\Data\Item();
             case 'display':
                 return new \PhpRestService\Resource\Display\All();
             case 'format':
