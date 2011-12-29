@@ -6,27 +6,6 @@ use \PhpRestService\Logger;
 
 abstract class DisplayAbstract extends Component\ComponentAbstract {
 
-    protected $_id;
-    protected $_request;
-
-    public function getId() {
-        return $this->_id;
-    }
-
-    public function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
-
-    public function getRequest() {
-        return $this->_request;
-    }
-
-    public function setRequest($request) {
-        $this->_request = $request;
-        return $this;
-    }
-
     public function dataUrl($object) {
         $data = array();
         if (method_exists($object, 'getId')) {
