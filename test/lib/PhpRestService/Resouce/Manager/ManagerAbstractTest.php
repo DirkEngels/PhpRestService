@@ -54,4 +54,24 @@ class ManagerAbstractTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($none, $this->_component->getCollection());
     }
 
+    public function testSetDisplay() {
+        $all = new \PhpRestService\Resource\Display\All();
+
+        $this->assertNull($this->_component->getDisplay());
+
+        $this->_component->setDisplay($all);
+
+        $this->assertEquals($all, $this->_component->getDisplay());
+    }
+
+    public function testSetFormat() {
+        $xml = new \PhpRestService\Resource\Format\Xml();
+
+        $this->assertNull($this->_component->getFormat());
+
+        $this->_component->setFormat($xml);
+
+        $this->assertEquals($xml, $this->_component->getFormat());
+    }
+
 }
