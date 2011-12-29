@@ -103,21 +103,17 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
     protected function _handleData() {
         if ($this->getId()) {
             $this->getItem()
-                ->setRequest($this->getRequest())
-                ->setResponse($this->getResponse())
                 ->setId($this->getId());
+            $this->_setRequestResponse($this->getItem());
             $result = $this->getItem()->handle();
-            $this->setRequest($this->getItem()->getRequest());
-            $this->setResponse($this->getItem()->getResponse());
+            $this->_updateRequestResponse($this->getItem());
             return $result;
         }
-        $this->getCollection()
-            ->setRequest($this->getRequest())
-            ->setResponse($this->getResponse());
+        $this->_setRequestResponse($this->getCollection());
 
         $result = $this->getCollection()->handle();
-        $this->setRequest($this->getCollection()->getRequest());
-        $this->setResponse($this->getCollection()->getResponse());
+        $this->_updateRequestResponse($this->getCollection());
+
         return $result;
     }
 
@@ -125,29 +121,31 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
         if ($this->getId()) {
             $this->getDisplay()->setId($this->getId());
         }
-        $this->getDisplay()
-            ->setRequest($this->getRequest())
-            ->setResponse($this->getResponse());
+        $this->_setRequestResponse($this->getDisplay());
 
         $display = $this->getDisplay()->handle($sourceData);
-
-        $this->setRequest($this->getDisplay()->getRequest());
-        $this->setResponse($this->getDisplay()->getResponse());
+        $this->_updateRequestResponse($this->getDisplay());
 
         return $display;
     }
 
     protected function _handleFormat($displayData) {
-        $this->getFormat()
+        $this->_setRequestResponse($this->getFormat());
+        $format = $this->getFormat()->render($displayData);
+        $this->_updateRequestResponse($this->getFormat());
+        return $format;
+    }
+
+
+    protected function _setRequestResponse($object) {
+        $object
             ->setRequest($this->getRequest())
             ->setResponse($this->getResponse());
+    }
 
-        $format = $this->getFormat()->render($displayData);
-
-        $this->setRequest($this->getFormat()->getRequest());
-        $this->setResponse($this->getFormat()->getResponse());
-
-        return $format;
+    protected function _updateRequestResponse($object) {
+        $this->setRequest($object->getRequest());
+        $this->setResponse($object->getResponse());
     }
 
 }
