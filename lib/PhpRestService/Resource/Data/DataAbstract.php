@@ -1,26 +1,9 @@
 <?php
 
 namespace PhpRestService\Resource\Data;
+use \PhpRestService\Resource\Component;
 
-abstract class DataAbstract {
-
-    protected $_id;
-    protected $_request;
-
-    public function __construct($request = NULL) {
-        if (!is_null($request)) {
-            $this->setRequest($request);
-        }
-    }
-
-    public function getId() {
-        return $this->_id;
-    }
-
-    public function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
+abstract class DataAbstract extends Component\ComponentAbstract {
 
     public function head() {
         throw new \Exception('HTTP Method not implemented', 404);

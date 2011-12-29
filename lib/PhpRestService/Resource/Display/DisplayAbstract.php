@@ -1,12 +1,13 @@
 <?php
 
 namespace PhpRestService\Resource\Display;
+use \PhpRestService\Resource\Component;
+use \PhpRestService\Logger;
 
-use PhpRestService\Logger;
-
-abstract class DisplayAbstract {
+abstract class DisplayAbstract extends Component\ComponentAbstract {
 
     protected $_id;
+    protected $_request;
 
     public function getId() {
         return $this->_id;
@@ -14,6 +15,15 @@ abstract class DisplayAbstract {
 
     public function setId($id) {
         $this->_id = $id;
+        return $this;
+    }
+
+    public function getRequest() {
+        return $this->_request;
+    }
+
+    public function setRequest($request) {
+        $this->_request = $request;
         return $this;
     }
 

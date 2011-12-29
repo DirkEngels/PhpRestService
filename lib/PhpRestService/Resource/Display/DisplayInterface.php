@@ -1,8 +1,9 @@
 <?php
 
 namespace PhpRestService\Resource\Display;
+use \PhpRestService\Resource\Component;
 
-interface DisplayInterface {
+interface DisplayInterface extends Component\ComponentInterface {
 
     public function dataUrl($object);
     public function dataBasic($object);
