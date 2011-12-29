@@ -13,13 +13,12 @@ class Collection extends Data\Collection implements Data\DataInterface {
     }
 
     public function get() {
-        $this->getResponse()->getCode(200);
         $objects = $this->_logic->load();
         return $objects;
     }
 
     public function post() {
-        $this->getResponse()->getCode(201);
+        $this->getResponse()->setCode(201);
         return $this->_logic->write($_POST);
     }
 

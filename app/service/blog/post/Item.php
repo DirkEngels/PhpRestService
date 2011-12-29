@@ -22,8 +22,6 @@ class Item extends Data\Item implements Data\DataInterface {
     }
 
     public function get() {
-        $this->getResponse()->getCode(200);
-
         $object = $this->_logic->find($this->_getId());
         if (!is_object($object)) {
             throw new \Exception('Object not found!', 404);
@@ -32,7 +30,7 @@ class Item extends Data\Item implements Data\DataInterface {
     }
 
     public function put() {
-        $this->getResponse()->getCode(201);
+        $this->getResponse()->setCode(204);
 
         $data = array('title' => 'Default title: ' . mktime());
         return $this->_logic->update($this->_getId(), $data);
