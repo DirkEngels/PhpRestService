@@ -90,23 +90,40 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
             $this->setId($id);
         }
 
-        $output = '';
-        $data = $this->_handleData();
-        switch ($_SERVER['REQUEST_METHOD']) {
-            case 'DELETE':
-                break;
-            case 'GET':
-            default:
-                try {
+        $displayData = array();
+        try {
+            // Data
+            $output = '';
+            $data = $this->_handleData();
+
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'PUT':
+                case 'DELETE':
+                    break;
+                case 'GET':
+                default:
+                    // Display
                     $displayData = $this->_handleDisplay($data);
-                } catch (\Exception $exception) {
-                    $this->setDisplay(
-                        new \PhpRestService\Resource\Display\Exception()
-                    );
-                    $displayData = $this->_handleDisplay($exception);
-                }
-                $this->_handleFormat($displayData);
+            }
+
+            // Set response code if it hasn't been set
+            if ($this->getResponse()->getCode() == NULL) {
+                $this->getResponse()->setCode(200);
+            }
+
+        } catch (\Exception $exception) {
+            $this->setDisplay(
+                new \PhpRestService\Resource\Display\Exception()
+            );
+            $displayData = $this->_handleDisplay($exception);
+            $this->getResponse()->setCode($exception->getCode());
         }
+
+        // Format
+        if (count($displayData) > 0) {
+            $this->_handleFormat($displayData);
+        }
+
         return $this->getResponse();
     }
 
@@ -116,12 +133,19 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
                 ->setRequest($this->getRequest())
                 ->setResponse($this->getResponse())
                 ->setId($this->getId());
-            return $this->getItem()->handle();
+            $result = $this->getItem()->handle();
+            $this->setRequest($this->getItem()->getRequest());
+            $this->setResponse($this->getItem()->getResponse());
+            return $result;
         }
         $this->getCollection()
             ->setRequest($this->getRequest())
             ->setResponse($this->getResponse());
-        return $this->getCollection()->handle();
+
+        $result = $this->getCollection()->handle();
+        $this->setRequest($this->getCollection()->getRequest());
+        $this->setResponse($this->getCollection()->getResponse());
+        return $result;
     }
 
     protected function _handleDisplay($sourceData = NULL) {
@@ -134,6 +158,9 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
 
         $display = $this->getDisplay()->handle($sourceData);
 
+        $this->setRequest($this->getDisplay()->getRequest());
+        $this->setResponse($this->getDisplay()->getResponse());
+
         return $display;
     }
 
@@ -142,7 +169,12 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
             ->setRequest($this->getRequest())
             ->setResponse($this->getResponse());
 
-        return $this->getFormat()->render($displayData);
+        $format = $this->getFormat()->render($displayData);
+
+        $this->setRequest($this->getFormat()->getRequest());
+        $this->setResponse($this->getFormat()->getResponse());
+
+        return $format;
     }
 
 }
