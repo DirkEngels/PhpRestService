@@ -22,6 +22,7 @@ class Item extends Data\Item implements Data\DataInterface {
     }
 
     public function get() {
+        $this->getResponse()->getCode(200);
 
         $object = $this->_logic->find($this->_getId());
         if (!is_object($object)) {
@@ -31,12 +32,15 @@ class Item extends Data\Item implements Data\DataInterface {
     }
 
     public function put() {
+        $this->getResponse()->getCode(201);
+
         $data = array('title' => 'Default title: ' . mktime());
         return $this->_logic->update($this->_getId(), $data);
     }
 
     public function delete() {
-        $this->getResponse()->getCode(201);
+        $this->getResponse()->getCode(404);
+
         return $this->_logic->delete($this->_getId());
     }
 
