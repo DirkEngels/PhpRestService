@@ -26,8 +26,18 @@ Version 1.0 (roadmap)
     - Implement resource specific config options
 
 
-Version 0.4 (planned)
+Version 0.4.1 (planned)
 ---------------------
+- Implement HTTP accept (format) header
+- Refactor passing request & response to resource components
+- Add unit tests for resource components
+    - display
+    - manager
+    - factory
+
+
+Version 0.4 (29-12-2011)
+========================
 + Setup unit test structure [concept-unit-tests]
 + Refactor simple router class
 + Implement http methods [feature-http-methods]
@@ -35,12 +45,9 @@ Version 0.4 (planned)
     + PUT
     + DELETE
 + Add HTTP status codes
-- Implement HTTP accept (format) header
-- Refactor passing request & response to resource components
-- Add unit tests for resource components
++ Add unit tests for resource components [concept-unit-tests]
     + component
     + data
-    - display
     + format
 
 
