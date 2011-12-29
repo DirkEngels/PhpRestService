@@ -16,9 +16,9 @@ abstract class ComponentAbstract {
         $this->setRequest($request);
 
         // Init Response
-//        if (is_null($response)) {
+        if (is_null($response)) {
             $response = new \PhpRestService\Http\Response();
-//        }
+        }
         $this->setResponse($response);
 
         // Set Id
