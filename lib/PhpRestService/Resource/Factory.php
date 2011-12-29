@@ -159,6 +159,10 @@ class Factory {
                     $object = new $formatClass();
                 }
             }
+        // Overrride!!!
+        $formatClass = '\\PhpRestService\\Resource\\Format\\Json';
+        $object = new $formatClass();
+
         }
         return $object;
     }
