@@ -25,8 +25,12 @@ class Xml extends FormatAbstract implements FormatInterface {
             }
 
             // Recursively add child elements
+            if ($value instanceof \DateTime) {
+                $value = $value->format('Y-m-d H:i:s');
+            }
+
             is_array($value)
-                ? $this->appendArray($value, $xml->addChild($key))
+                ? $this->_appendArray($value, $xml->addChild($key))
                 : $xml->addChild($key, $value);
         }
         return $xml;
