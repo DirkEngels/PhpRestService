@@ -22,15 +22,6 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
         return $this;
     }
 
-    public function getId() {
-        return $this->_id;
-    }
-
-    public function setId($id) {
-        $this->_id = $id;
-        return $this;
-    }
-
     public function getCollection() {
         return $this->_collection;
     }
@@ -64,24 +55,6 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
 
     public function setFormat($format) {
         $this->_format = $format;
-        return $this;
-    }
-
-    public function getRequest() {
-        return $this->_request;
-    }
-
-    public function setRequest($request) {
-        $this->_request = $request;
-        return $this;
-    }
-
-    public function getResponse() {
-        return $this->_response;
-    }
-
-    public function setResponse($response) {
-        $this->_response = $response;
         return $this;
     }
 
