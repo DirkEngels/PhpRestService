@@ -38,8 +38,8 @@ Version 0.4 (planned)
 - Implement HTTP accept (format) header
 - Refactor passing request & response to resource components
 - Add unit tests for resource components
-    - component
-    - data
+    + component
+    + data
     - display
     - format
 
