@@ -28,7 +28,7 @@ Version 1.0 (roadmap)
 
 Version 0.4.1 (planned)
 ---------------------
-- Implement HTTP accept (format) header [feature-http-accept]
++ Implement HTTP accept (format) header [feature-http-accept]
 + Refactor passing request & response objects [refactor-request-response]
 - Add unit tests for resource components [feature-more-tests]
     - display

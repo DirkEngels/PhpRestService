@@ -53,8 +53,16 @@ class Factory {
      * @return stdClass
      */
     public static function getComponentType($resourceName, $objectType) {
-        // First: Check if the class has been overloaded
-        $object = self::_getObjectClass($resourceName, $objectType);
+        $object = self::_getRequestArgs($resourceName, $objectType);
+
+        if (!is_object($object)) {
+            $object = self::_getRequestHeader($resourceName, $objectType);
+        }
+
+        if (!is_object($object)) {
+            // First: Check if the class has been overloaded
+            $object = self::_getObjectClass($resourceName, $objectType);
+        }
 
         if (!is_object($object)) {
             // Second: Check configuration
@@ -138,6 +146,38 @@ class Factory {
         return \PhpRestService\Config::get()->getOptionValue('global.namespace') . '\\'. str_replace('/', '\\', $resourceName) . '\\' . ucfirst($objectType);
     }
 
+
+    protected static function _getRequestHeader($resourceName, $objectType) {
+        $object = NULL;
+        if ($objectType == self::TYPE_FORMAT) {
+            $request = new \PhpRestService\Http\Request();
+            $formats = $request->getAcceptFormats();
+            $accepts = array('json', 'xml');
+            foreach($formats as $format) {
+                if (in_array($format['sub_type'], $accepts)) {
+                    $formatClass = '\\PhpRestService\\Resource\\Format\\' . ucfirst($format['sub_type']);
+                    $object = new $formatClass();
+                }
+            }
+        }
+        return $object;
+    }
+
+
+    protected static function _getRequestArgs($resourceName, $objectType) {
+        $object = NULL;
+        if ($objectType == self::TYPE_FORMAT) {
+            if (!empty($_REQUEST['format'])) {
+            	
+                $accepts = array('json', 'xml');
+                if (in_array($_REQUEST['format'], $accepts)) {
+                    $formatClass = '\\PhpRestService\\Resource\\Format\\' . ucfirst($_REQUEST['format']);
+                    $object = new $formatClass();
+                }
+            }
+        }
+        return $object;
+    }
 
     /**
      * Returns the config name based on the resource name.
