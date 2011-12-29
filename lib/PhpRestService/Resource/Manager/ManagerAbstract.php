@@ -1,20 +1,17 @@
 <?php
 
 namespace PhpRestService\Resource\Manager;
+use \PhpRestService\Resource\Component;
 use \PhpRestService\Resource\Display;
 
-abstract class ManagerAbstract {
+abstract class ManagerAbstract extends Component\ComponentAbstract {
 
     protected $_name;
-    protected $_id;
 
     protected $_collection;
     protected $_item;
     protected $_display;
     protected $_format;
-
-    protected $_request;
-    protected $_response;
 
     public function getName() {
         return $this->_name;
@@ -108,16 +105,22 @@ abstract class ManagerAbstract {
                     );
                     $displayData = $this->_handleDisplay($exception);
                 }
-                $output = $this->_handleFormat($displayData);
+                $this->_handleFormat($displayData);
         }
-        return $output;
+        return $this->getResponse();
     }
 
     protected function _handleData() {
         if ($this->getId()) {
-            $this->getItem()->setId($this->getId());
+            $this->getItem()
+                ->setRequest($this->getRequest())
+                ->setResponse($this->getResponse())
+                ->setId($this->getId());
             return $this->getItem()->handle();
         }
+        $this->getCollection()
+            ->setRequest($this->getRequest())
+            ->setResponse($this->getResponse());
         return $this->getCollection()->handle();
     }
 
@@ -125,12 +128,20 @@ abstract class ManagerAbstract {
         if ($this->getId()) {
             $this->getDisplay()->setId($this->getId());
         }
+        $this->getDisplay()
+            ->setRequest($this->getRequest())
+            ->setResponse($this->getResponse());
+
         $display = $this->getDisplay()->handle($sourceData);
 
         return $display;
     }
 
     protected function _handleFormat($displayData) {
+        $this->getFormat()
+            ->setRequest($this->getRequest())
+            ->setResponse($this->getResponse());
+
         return $this->getFormat()->render($displayData);
     }
 

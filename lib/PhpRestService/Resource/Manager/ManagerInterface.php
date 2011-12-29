@@ -1,8 +1,9 @@
 <?php
 
 namespace PhpRestService\Resource\Manager;
+use \PhpRestService\Resource\Component;
 
-interface ManagerInterface {
+interface ManagerInterface extends Component\ComponentInterface {
 
     public function getCollection();
     public function setCollection($collection);
@@ -10,8 +11,6 @@ interface ManagerInterface {
     public function setDisplay($display);
     public function getFormat();
     public function setFormat($format);
-    public function getId();
-    public function setId($id);
     public function handle($id = NULL);
 
 }
