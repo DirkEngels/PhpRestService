@@ -21,20 +21,27 @@ Version 1.0 (roadmap)
     - Email
     - Date
     - ForeignKey
+- Add Application Config class
+    - Implement service global config options
+    - Implement resource specific config options
 
 
 Version 0.4 (planned)
 ---------------------
 + Setup unit test structure [concept-unit-tests]
-- Add Application Router class
-    - Default
-    - Resource
-- Add Application Config class
-    - Implement service global config options
-    - Implement resource specific config options
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
++ Refactor simple router class
++ Implement http methods [feature-http-methods]
+    + POST
+    + PUT
+    + DELETE
++ Add HTTP status codes
+- Implement HTTP accept (format) header
+- Refactor passing request & response to resource components
+- Add unit tests for resource components
+    - component
+    - data
+    - display
+    - format
 
 
 Version 0.3 (28-12-2011)

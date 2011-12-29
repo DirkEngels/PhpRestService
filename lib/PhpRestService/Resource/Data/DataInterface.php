@@ -1,8 +1,9 @@
 <?php
 
 namespace PhpRestService\Resource\Data;
+use \PhpRestService\Resource\Component;
 
-interface DataInterface {
+interface DataInterface extends Component\ComponentInterface {
 
     public function head();
     public function options();

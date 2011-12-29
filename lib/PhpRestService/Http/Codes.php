@@ -44,10 +44,11 @@ class Codes {
         412 => 'Precondition Failed',
         413 => 'Request Entity Too Large',
         414 => 'Request-URI Too Long',
-        // Server Error 5xx
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
         502 => 'Bad Gateway',
+
+        // Server Error 5xx
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
@@ -55,6 +56,11 @@ class Codes {
     );
 
     public static function get($code) {
+        // Default code
+        if (!in_array($code, self::$_codes)) {
+            $code = 500;
+        }
+
         return self::$_codes[$code];
     }
 }
