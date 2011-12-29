@@ -52,7 +52,7 @@ Version 0.4 (29-12-2011)
 
 
 Version 0.3 (28-12-2011)
-========================
+------------------------
 + Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
 + Rename formatter to display [refactor-display]
 + Rename representation to format [refactor-format]
