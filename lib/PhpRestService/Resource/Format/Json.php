@@ -15,8 +15,6 @@ class Json extends FormatAbstract implements FormatInterface {
             ->setBody(
                 \Zend_Json::encode($data)
             );
-
-        return $this->getResponse();
     }
 
 }
