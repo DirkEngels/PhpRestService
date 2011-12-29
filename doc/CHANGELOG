@@ -21,6 +21,9 @@ Version 1.0 (roadmap)
     - Email
     - Date
     - ForeignKey
+- Add Application Config class
+    - Implement service global config options
+    - Implement resource specific config options
 
 
 Version 0.4 (planned)
@@ -31,12 +34,13 @@ Version 0.4 (planned)
     + POST
     + PUT
     + DELETE
-- Add Application Config class
-    - Implement service global config options
-    - Implement resource specific config options
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
++ Add HTTP status codes
+- Implement HTTP accept (format) header
+- Add unit tests for resource components
+    - component
+    - data
+    - display
+    - format
 
 
 Version 0.3 (28-12-2011)
