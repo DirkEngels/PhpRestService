@@ -32,7 +32,7 @@ abstract class DataAbstract extends Component\ComponentAbstract {
     public function handle() {
         $method = $_SERVER['REQUEST_METHOD'];
         if (!method_exists($this, $method)) {
-            throw new \Exception('HTTP Method has not been implemented!');
+            throw new \Exception('Unsupported http method!', 501);
         }
         return $this->$method();
     }
