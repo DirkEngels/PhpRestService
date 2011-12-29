@@ -7,7 +7,6 @@ class Post {
     protected function _setAttribute($object, $key, $value) {
         $method = 'set' . $key;
         if (method_exists($object, $method)) {
-            error_log('setting: ' . $key);
             $object->$method($value);
         }
         return $object;
@@ -19,7 +18,6 @@ class Post {
             $blogPost = $this->_setAttribute($blogPost, $key, $value);
         }
 
-        error_log("BOE");
         $entityManager = \Zend_Registry::get('entityManager');
         $entityManager->persist($blogPost);
         return $entityManager->flush();
