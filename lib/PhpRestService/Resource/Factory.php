@@ -200,6 +200,7 @@ class Factory {
      */
     protected static function _getObjectClass($resourceName, $objectType) {
         $className = self::_getClassName($resourceName, $objectType);
+        $className = str_replace('\\\\', '\\', $className);
 
         $msg = 'FACTORY: Trying ' . $objectType . ' class component: ' . $className;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
