@@ -35,4 +35,23 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\\PhpRestService\\Resource\\Manager\\ManagerAbstract', $manager);
     }
 
+    public function testFactoryGetDataCollection() {
+        $collection = \PhpRestService\Resource\Factory::getDataCollection('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Data\\Collection', $collection);
+    }
+
+    public function testFactoryGetDataItem() {
+        $item = \PhpRestService\Resource\Factory::getDataItem('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Data\\Item', $item);
+    }
+
+    public function testFactoryGetDisplay() {
+        $display = \PhpRestService\Resource\Factory::getDisplay('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Display\\DisplayAbstract', $display);
+    }
+
+    public function testFactoryGetFormat() {
+        $format = \PhpRestService\Resource\Factory::getFormat('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Format\\FormatAbstract', $format);
+    }
 }
