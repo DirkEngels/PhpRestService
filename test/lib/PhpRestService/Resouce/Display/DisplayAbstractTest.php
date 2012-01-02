@@ -26,10 +26,6 @@ class DisplayAbstractTest extends \PHPUnit_Framework_TestCase {
     protected function tearDown() {
     }
 
-    public function testNothing() {
-        $this->assertTrue(TRUE);
-    }
-
     public function testGetUrl() {
         $_SERVER['REQUEST_URI'] = 'http://www.google.nl';
         $this->assertEquals('http://www.google.nl', $this->_component->getUrl());
