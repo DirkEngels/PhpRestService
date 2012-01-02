@@ -23,14 +23,15 @@ Version 1.0 (roadmap)
 
 Version 0.4.2 (planned)
 -----------------------
-- Add Application Router
+- Add Application Router [feature-app-router]
     - Simple routing (dir structure)
     - Regex routing (config routes)
-- Implement HTTP Request class
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
+- Implement HTTP Request class [feature-http-request]
+- Implement HTTP Header class [feature-http-header]
+    + Add HTTP status codes
+    + Accept
     - Authorization
+
 
 Version 0.4.1 (03-01-2012)
 ==========================
