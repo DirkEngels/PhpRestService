@@ -25,4 +25,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(TRUE);
     }
 
+    public function testFactoryGet() {
+        $manager = \PhpRestService\Resource\Factory::get('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Manager\\ManagerAbstract', $manager);
+    }
+
+    public function testFactoryGetManager() {
+        $manager = \PhpRestService\Resource\Factory::getManager('Blog\\Post');
+        $this->assertInstanceOf('\\PhpRestService\\Resource\\Manager\\ManagerAbstract', $manager);
+    }
+
 }
