@@ -6,6 +6,28 @@ use \PhpRestService\Logger;
 
 abstract class DisplayAbstract extends Component\ComponentAbstract {
 
+    protected $_url;
+
+    public function getUrl() {
+        if (is_null($this->_url)) {
+            $this->_url = $_SERVER['REQUEST_URI'];
+        }
+        return $this->_url;
+        
+    }
+
+    public function setUrl($url) {
+        if (!preg_match('/^http:\/\//', $url)) {
+            $url = 'http://' . $url;
+        }
+        if (substr($url, -1) == '/') {
+            $url = substr($url, 0, strlen($url)-1);
+        }
+
+        $this->_url = $url;
+        return $this;
+    }
+
     public function dataUrl($object) {
         $data = array();
         if (method_exists($object, 'getId')) {
@@ -13,7 +35,7 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
             if (isset($id)) {
                 $data = array (
                     'id' => $object->getId(),
-                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/blog/post/' . $object->getId(),
+                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $this->getUrl() . '/' . $object->getId(),
                 );
             }
         }
@@ -41,6 +63,20 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
             }
         } else {
             Logger::log("Error display items", \Zend_Log::DEBUG);
+        }
+        return $data;
+    }
+
+    public function dataRelation($displayClass, $objects, $url = NULL) {
+        $data = array();
+        $display = new $displayClass();
+        if (!is_null($url)) {
+            $display->setUrl($url);
+        }
+        foreach($objects as $object) {
+            $dataBasic = $display->dataBasic($object);
+            $dataUrl = (!is_null($url)) ? $display->dataUrl($object) : array();
+            $data[] = array_merge($dataUrl, $dataBasic);
         }
         return $data;
     }

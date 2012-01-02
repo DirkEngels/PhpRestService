@@ -10,11 +10,6 @@ Version 1.0 (roadmap)
 - Create website
 - Add Application Loader class
     - Implement resource loader
-- Implement HTTP Request class
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
-    - Authorization
 - Implement attribute validators
     - Integer
     - Text
@@ -26,18 +21,29 @@ Version 1.0 (roadmap)
     - Implement resource specific config options
 
 
-Version 0.4.1 (planned)
----------------------
-- Implement HTTP accept (format) header
-- Refactor passing request & response to resource components
-- Add unit tests for resource components
-    - display
-    - manager
-    - factory
+Version 0.4.2 (planned)
+-----------------------
+- Add Application Router
+    - Simple routing (dir structure)
+    - Regex routing (config routes)
+- Implement HTTP Request class
+- Implement HTTP Header class
+    - Add HTTP status codes
+    - Accept
+    - Authorization
+
+Version 0.4.1 (03-01-2012)
+==========================
++ Implement HTTP accept (format) header [feature-http-accept]
++ Refactor passing request & response objects [refactor-request-response]
++ Add unit tests for resource components [feature-more-tests]
+    + display
+    + manager
+    + factory
 
 
 Version 0.4 (29-12-2011)
-========================
+------------------------
 + Setup unit test structure [concept-unit-tests]
 + Refactor simple router class
 + Implement http methods [feature-http-methods]

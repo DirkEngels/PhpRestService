@@ -25,20 +25,20 @@ class Factory {
 
         // Data
         $manager->setCollection(
-            self::getComponentType($resourceName, self::TYPE_COLLECTION)
+            self::getDataCollection($resourceName)
         );
         $manager->setItem(
-            self::getManagerDataItem($resourceName, $resourceKey)
+            self::getDataItem($resourceName, $resourceKey)
         );
 
         // Display
         $manager->setDisplay(
-            self::getManagerDisplay($resourceName, $resourceKey)
+            self::getDisplay($resourceName, $resourceKey)
         );
 
         // Format
         $manager->setFormat(
-            self::getComponentType($resourceName, self::TYPE_FORMAT)
+            self::getFormat($resourceName)
         );
 
         \PhpRestService\Logger::log('----------', \Zend_Log::DEBUG);
@@ -53,8 +53,16 @@ class Factory {
      * @return stdClass
      */
     public static function getComponentType($resourceName, $objectType) {
-        // First: Check if the class has been overloaded
-        $object = self::_getObjectClass($resourceName, $objectType);
+        $object = self::_getRequestArgs($resourceName, $objectType);
+
+        if (!is_object($object)) {
+            $object = self::_getRequestHeader($resourceName, $objectType);
+        }
+
+        if (!is_object($object)) {
+            // First: Check if the class has been overloaded
+            $object = self::_getObjectClass($resourceName, $objectType);
+        }
 
         if (!is_object($object)) {
             // Second: Check configuration
@@ -85,18 +93,18 @@ class Factory {
     /**
      * Returns the manager data collection for the specified resource
      * @param string $resourceName
-     * @return \PhpRestService\Resource\Manager\Data\DataAbstract
+     * @return \PhpRestService\Resource\Data\DataAbstract
      */
-    public static function getManagerDataCollection($resourceName) {
+    public static function getDataCollection($resourceName) {
         return self::getComponentType($resourceName, self::TYPE_COLLECTION);
     }
 
     /**
      * Returns the manager data item for the specified resource
      * @param string $resourceName
-     * @return \PhpRestService\Resource\Manager\Data\DataAbstract
+     * @return \PhpRestService\Resource\Data\DataAbstract
      */
-    public static function getManagerDataItem($resourceName, $id = NULL) {
+    public static function getDataItem($resourceName, $id = NULL) {
         $item = self::getComponentType($resourceName, self::TYPE_ITEM);
         if (!is_null($id)) {
             $item->setId($id);
@@ -107,9 +115,9 @@ class Factory {
     /**
      * Returns the manager timer for the specified resource
      * @param string $resourceName
-     * @return \PhpRestService\Resource\Manager\Display\DisplayAbstract
+     * @return \PhpRestService\Resource\Display\DisplayAbstract
      */
-    public static function getManagerDisplay($resourceName, $id = NULL) {
+    public static function getDisplay($resourceName, $id = NULL) {
         $display = self::getComponentType($resourceName, self::TYPE_DISPLAY);
         if (!is_null($id)) {
             $display->setId($id);
@@ -121,9 +129,9 @@ class Factory {
     /**
      * Returns the manager timer for the specified resource
      * @param string $resourceName
-     * @return \PhpRestService\Resource\Manager\Format\FormatAbstract
+     * @return \PhpRestService\Resource\Format\FormatAbstract
      */
-    public static function getManagerFormat($resourceName) {
+    public static function getFormat($resourceName) {
         return self::getComponentType($resourceName, self::TYPE_FORMAT);
     }
 
@@ -138,6 +146,42 @@ class Factory {
         return \PhpRestService\Config::get()->getOptionValue('global.namespace') . '\\'. str_replace('/', '\\', $resourceName) . '\\' . ucfirst($objectType);
     }
 
+
+    protected static function _getRequestHeader($resourceName, $objectType) {
+        $object = NULL;
+        if ($objectType == self::TYPE_FORMAT) {
+            $request = new \PhpRestService\Http\Request();
+            $formats = $request->getAcceptFormats();
+            $accepts = array('json', 'xml');
+            foreach($formats as $format) {
+                if (in_array($format['sub_type'], $accepts)) {
+                    $formatClass = '\\PhpRestService\\Resource\\Format\\' . ucfirst($format['sub_type']);
+                    $object = new $formatClass();
+                }
+            }
+        // Overrride!!!
+        $formatClass = '\\PhpRestService\\Resource\\Format\\Json';
+        $object = new $formatClass();
+
+        }
+        return $object;
+    }
+
+
+    protected static function _getRequestArgs($resourceName, $objectType) {
+        $object = NULL;
+        if ($objectType == self::TYPE_FORMAT) {
+            if (!empty($_REQUEST['format'])) {
+            	
+                $accepts = array('json', 'xml');
+                if (in_array($_REQUEST['format'], $accepts)) {
+                    $formatClass = '\\PhpRestService\\Resource\\Format\\' . ucfirst($_REQUEST['format']);
+                    $object = new $formatClass();
+                }
+            }
+        }
+        return $object;
+    }
 
     /**
      * Returns the config name based on the resource name.
@@ -156,6 +200,7 @@ class Factory {
      */
     protected static function _getObjectClass($resourceName, $objectType) {
         $className = self::_getClassName($resourceName, $objectType);
+        $className = str_replace('\\\\', '\\', $className);
 
         $msg = 'FACTORY: Trying ' . $objectType . ' class component: ' . $className;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
