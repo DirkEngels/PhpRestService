@@ -8,11 +8,10 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
 
     protected $_url;
 
-    public function __construct() {
-        $this->_url = $_SERVER['REQUEST_URI'];
-    }
-
     public function getUrl() {
+        if (is_null($this->_url)) {
+            $this->_url = $_SERVER['REQUEST_URI'];
+        }
         return $this->_url;
         
     }
@@ -29,7 +28,7 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
             if (isset($id)) {
                 $data = array (
                     'id' => $object->getId(),
-                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $this->_url . '/' . $object->getId(),
+                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $this->getUrl() . '/' . $object->getId(),
                 );
             }
         }
