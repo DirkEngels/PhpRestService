@@ -17,6 +17,13 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
     }
 
     public function setUrl($url) {
+        if (!preg_match('/^http:\/\//', $url)) {
+            $url = 'http://' . $url;
+        }
+        if (substr($url, -1) == '/') {
+            $url = substr($url, 0, strlen($url)-1);
+        }
+
         $this->_url = $url;
         return $this;
     }
