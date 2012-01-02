@@ -5,7 +5,7 @@ namespace PhpRestService\Http;
 class Request {
 
     public function getAcceptFormats($header = false) {
-        $formats = null;
+        $formats = array();
         $header = $header ? $header : (array_key_exists('HTTP_ACCEPT', $_SERVER) ? $_SERVER['HTTP_ACCEPT']: false);
         if ($header) {
             $types = explode(',', $header);
