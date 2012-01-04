@@ -1,6 +1,7 @@
 <?php
 
 namespace PhpRestService\Resource\Manager;
+use \PhpRestService\Logger;
 use \PhpRestService\Resource\Component;
 use \PhpRestService\Resource\Display;
 
@@ -104,13 +105,16 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
         if ($this->getId()) {
             $this->getItem()
                 ->setId($this->getId());
+
             $this->_setRequestResponse($this->getItem());
+            Logger::log("Manager: Running item: " . get_class($this->getItem()), \Zend_Log::DEBUG);
             $result = $this->getItem()->handle();
             $this->_updateRequestResponse($this->getItem());
             return $result;
         }
-        $this->_setRequestResponse($this->getCollection());
 
+        $this->_setRequestResponse($this->getCollection());
+        Logger::log("Manager: Running collection: " . get_class($this->getCollection()), \Zend_Log::DEBUG);
         $result = $this->getCollection()->handle();
         $this->_updateRequestResponse($this->getCollection());
 
