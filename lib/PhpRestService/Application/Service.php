@@ -11,13 +11,12 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
     protected $_request;
     protected $_response;
 
-
     protected function _loadResource($router) {
         $resourceManager = \PhpRestService\Resource\Factory::get(
-            $router->_resourceName,
-            $router->_resourceKey
+            $router->_resourceName
         );
-        $resourceManager->setId($router->_resourceKey);
+//        $resourceManager->setId($router->_resourceKey);
+
         return $resourceManager;
     }
 
@@ -33,7 +32,7 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
     public function run() {
         $this->_init();
 
-        // Detect Route
+        // Detect Route$device
         $route = $this->_detectRoute();
 
         // Load resource
