@@ -13,9 +13,25 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
 
     protected function _loadResource($router) {
         $resourceManager = \PhpRestService\Resource\Factory::get(
-            $router->_resourceName
+            $router->getResourceName()
         );
-//        $resourceManager->setId($router->_resourceKey);
+        if (!is_null($router->getResourceKey())) {
+            $resourceManager->setId($router->getResourceKey());
+        }
+        // Set arguments
+        $arguments = $router->getArguments();
+        foreach($arguments as $argument => $value) {
+            $method = 'set' . ucfirst($argument);
+            \PhpRestService\Logger::get()->log('Testing resource collection argument method: ' . $argument . ': ' . $value, \Zend_Log::DEBUG);
+            if (method_exists($resourceManager->getCollection(), $method)) {
+                \PhpRestService\Logger::get()->log('Setting resource collection argument value: ' . $argument . ': ' . $value, \Zend_Log::DEBUG);
+                $resourceManager->getCollection()->$method($value);
+            }
+            if (method_exists($resourceManager->getItem(), $method)) {
+                \PhpRestService\Logger::get()->log('Setting resource item argument value: ' . $argument . ': ' . $value, \Zend_Log::DEBUG);
+                $resourceManager->getItem()->$method($value);
+            }
+        }
 
         return $resourceManager;
     }
