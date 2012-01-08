@@ -24,7 +24,7 @@ Version 1.0 (roadmap)
 Version 0.4.2 (planned)
 -----------------------
 - Add Application Router [feature-app-router]
-    - Simple routing (dir structure)
+    + Simple routing (dir structure)
     - Regex routing (config routes)
 - Implement HTTP Request class [feature-http-request]
 - Implement HTTP Header class [feature-http-header]
