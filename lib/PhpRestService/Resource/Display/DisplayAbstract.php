@@ -55,6 +55,10 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return $data;
     }
 
+    public function dataExtended($object) {
+        return array();
+    }
+
     public function displayCollection($objects, $extended = false) {
         $data = array();
         if (is_array($objects)) {
