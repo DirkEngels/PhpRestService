@@ -70,15 +70,15 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
     }
 
     public function handle($id = NULL) {
-        // Check authentification
-        $this->getAuth()->authenticate();
-
         if (!is_null($id)) {
             $this->setId($id);
         }
 
         $displayData = array();
         try {
+            // Check authentification
+            $this->getAuth()->authenticate();
+
             // Data
             $output = '';
             $data = $this->_handleData();
