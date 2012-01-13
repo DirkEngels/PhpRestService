@@ -9,6 +9,7 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
 
     protected $_name;
 
+    protected $_auth;
     protected $_collection;
     protected $_item;
     protected $_display;
@@ -20,6 +21,15 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
 
     public function setName($name) {
         $this->_name = $name;
+        return $this;
+    }
+
+    public function getAuth() {
+        return $this->_auth;
+    }
+
+    public function setAuth($auth) {
+        $this->_auth = $auth;
         return $this;
     }
 
@@ -60,6 +70,9 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
     }
 
     public function handle($id = NULL) {
+        // Check authentification
+        $this->getAuth()->authenticate();
+
         if (!is_null($id)) {
             $this->setId($id);
         }
