@@ -13,7 +13,7 @@ class Basic extends AuthAbstract implements AuthInterface {
         }
 
         // Unauthorized: send header
-        header('WWW-Authenticate: Basic realm="PhpRestService Realm"');
+        header('WWW-Authenticate: Basic realm="PhpRestService Basic Realm"');
         throw new \Exception('Unauthorized', 401);
         return FALSE;
     }
