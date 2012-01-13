@@ -2,3 +2,8 @@ lib/PhpTaskDaemon
 lib/Doctrine
 lib/Zend
 doc/tmp
+build/api
+build/coverage
+build/code-browser
+build/pdepend
+build/logs

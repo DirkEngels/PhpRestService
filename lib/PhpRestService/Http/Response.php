@@ -4,7 +4,7 @@ namespace PhpRestService\Http;
 
 class Response {
 
-    protected $_code = 501;
+    protected $_code = NULL;
     protected $_headers = array();
     protected $_body = '';
 	

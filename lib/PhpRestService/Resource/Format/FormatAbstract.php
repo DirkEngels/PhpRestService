@@ -1,13 +1,8 @@
 <?php
 
 namespace PhpRestService\Resource\Format;
+use \PhpRestService\Resource\Component;
 
-abstract class FormatAbstract {
-
-    protected $_response;
-
-    public function __construct() {
-        $this->_response = new \PhpRestService\Http\Response();
-    }
+abstract class FormatAbstract extends Component\ComponentAbstract {
 
 }

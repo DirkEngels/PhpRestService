@@ -4,14 +4,16 @@ namespace PhpRestService\Resource\Format;
 
 class Json extends FormatAbstract implements FormatInterface {
 
-    public function render($data) {
-        $this->_response->setCode(200);
-        $this->_response->addHeader('Content-type', 'application/json');
-        $this->_response->setBody(
-            \Zend_Json::encode($data)
-        );
+    public function parse($string) {
+        return \Zend_Json::decode($string);
+    }
 
-        return $this->_response;
+    public function render($data) {
+        $this->getResponse()
+            ->addHeader('Content-type', 'application/json')
+            ->setBody(
+                \Zend_Json::encode($data)
+            );
     }
 
 }

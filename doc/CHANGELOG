@@ -10,34 +10,66 @@ Version 1.0 (roadmap)
 - Create website
 - Add Application Loader class
     - Implement resource loader
-- Implement HTTP Request class
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
-    - Authorization
 - Implement attribute validators
     - Integer
     - Text
     - Email
     - Date
     - ForeignKey
-
-
-Version 0.4 (planned)
----------------------
-- Add Application Router class
-    - Default
-    - Resource
 - Add Application Config class
     - Implement service global config options
     - Implement resource specific config options
-- Implement HTTP Header class
-    - Add HTTP status codes
-    - Accept
+- Add regex routing (config routes)
+
+
+Version 0.4.3 (planned)
+-----------------------
++ Authorization
+    + None
+    + Basic
+    + Digest
+- Authentification configuration
+    - Global configuration
+    - Resource specific configuration
+
+
+Version 0.4.2 (13-01-2012)
+==========================
++ Add Application Router [feature-app-router]
+    + Simple routing (dir structure)
++ Implement HTTP Request class [feature-http-request]
++ Implement HTTP Header class [feature-http-header]
+    + Add HTTP status codes
+    + Accept
+
+
+Version 0.4.1 (03-01-2012)
+==========================
++ Implement HTTP accept (format) header [feature-http-accept]
++ Refactor passing request & response objects [refactor-request-response]
++ Add unit tests for resource components [feature-more-tests]
+    + display
+    + manager
+    + factory
+
+
+Version 0.4 (29-12-2011)
+------------------------
++ Setup unit test structure [concept-unit-tests]
++ Refactor simple router class
++ Implement http methods [feature-http-methods]
+    + POST
+    + PUT
+    + DELETE
++ Add HTTP status codes
++ Add unit tests for resource components [concept-unit-tests]
+    + component
+    + data
+    + format
 
 
 Version 0.3 (28-12-2011)
-========================
+------------------------
 + Refactor Collection and Item abstract classes to use the same interface [refactor-collection]
 + Rename formatter to display [refactor-display]
 + Rename representation to format [refactor-format]

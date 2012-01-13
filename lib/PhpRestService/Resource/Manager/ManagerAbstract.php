@@ -1,20 +1,19 @@
 <?php
 
 namespace PhpRestService\Resource\Manager;
+use \PhpRestService\Logger;
+use \PhpRestService\Resource\Component;
 use \PhpRestService\Resource\Display;
 
-abstract class ManagerAbstract {
+abstract class ManagerAbstract extends Component\ComponentAbstract {
 
     protected $_name;
-    protected $_id;
 
+    protected $_auth;
     protected $_collection;
     protected $_item;
     protected $_display;
     protected $_format;
-
-    protected $_request;
-    protected $_response;
 
     public function getName() {
         return $this->_name;
@@ -25,12 +24,12 @@ abstract class ManagerAbstract {
         return $this;
     }
 
-    public function getId() {
-        return $this->_id;
+    public function getAuth() {
+        return $this->_auth;
     }
 
-    public function setId($id) {
-        $this->_id = $id;
+    public function setAuth($auth) {
+        $this->_auth = $auth;
         return $this;
     }
 
@@ -70,59 +69,100 @@ abstract class ManagerAbstract {
         return $this;
     }
 
-    public function getRequest() {
-        return $this->_request;
-    }
-
-    public function setRequest($request) {
-        $this->_request = $request;
-        return $this;
-    }
-
-    public function getResponse() {
-        return $this->_response;
-    }
-
-    public function setResponse($response) {
-        $this->_response = $response;
-        return $this;
-    }
-
     public function handle($id = NULL) {
         if (!is_null($id)) {
             $this->setId($id);
         }
 
+        $displayData = array();
         try {
-            $sourceData = $this->_handleData();
-            $displayData = $this->_handleDisplay($sourceData);
+            // Check authentification
+            $this->getAuth()->authenticate();
+
+            // Data
+            $output = '';
+            $data = $this->_handleData();
+
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'PUT':
+                case 'DELETE':
+                    break;
+                case 'GET':
+                default:
+                    // Display
+                    $displayData = $this->_handleDisplay($data);
+            }
+
+            // Set response code if it hasn't been set
+            if ($this->getResponse()->getCode() == NULL) {
+                $this->getResponse()->setCode(200);
+            }
+
         } catch (\Exception $exception) {
             $this->setDisplay(
                 new \PhpRestService\Resource\Display\Exception()
             );
             $displayData = $this->_handleDisplay($exception);
+            $this->getResponse()->setCode($exception->getCode());
         }
-        return $this->_handleFormat($displayData);
+
+        // Format
+        if (count($displayData) > 0) {
+            $this->_handleFormat($displayData);
+        }
+
+        return $this->getResponse();
     }
 
     protected function _handleData() {
         if ($this->getId()) {
-            $this->getItem()->setId($this->getId());
+            $this->getItem()
+                ->setId($this->getId());
+
+            $this->_setRequestResponse($this->getItem());
+            Logger::log("Manager: Running item: " . get_class($this->getItem()), \Zend_Log::DEBUG);
+            $result = $this->getItem()->handle();
+            $this->_updateRequestResponse($this->getItem());
+            return $result;
         }
-        return $this->getCollection()->handle();
+
+        $this->_setRequestResponse($this->getCollection());
+        Logger::log("Manager: Running collection: " . get_class($this->getCollection()), \Zend_Log::DEBUG);
+        $result = $this->getCollection()->handle();
+        $this->_updateRequestResponse($this->getCollection());
+
+        return $result;
     }
 
     protected function _handleDisplay($sourceData = NULL) {
         if ($this->getId()) {
             $this->getDisplay()->setId($this->getId());
         }
+        $this->_setRequestResponse($this->getDisplay());
+
         $display = $this->getDisplay()->handle($sourceData);
+        $this->_updateRequestResponse($this->getDisplay());
 
         return $display;
     }
 
     protected function _handleFormat($displayData) {
-        return $this->getFormat()->render($displayData);
+        $this->_setRequestResponse($this->getFormat());
+        $format = $this->getFormat()->render($displayData);
+        $this->_updateRequestResponse($this->getFormat());
+        return $format;
+    }
+
+
+    protected function _setRequestResponse($object) {
+        $object
+            ->setRequest($this->getRequest())
+            ->setResponse($this->getResponse());
+    }
+
+    protected function _updateRequestResponse($object) {
+        $this->setRequest($object->getRequest());
+        $this->setResponse($object->getResponse());
     }
 
 }
