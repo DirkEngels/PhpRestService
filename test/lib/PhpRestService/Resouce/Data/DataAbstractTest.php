@@ -29,6 +29,20 @@ class DataAbstractTest extends \PHPUnit_Framework_TestCase {
     /**
      * @expectedException \Exception
      */
+    public function testHandleHeadMethod() {
+        $this->_handleWithCustomMethod('HEAD');
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testHandleOptionsMethod() {
+        $this->_handleWithCustomMethod('OPTIONS');
+    }
+
+    /**
+     * @expectedException \Exception
+     */
     public function testHandleGetMethod() {
         $this->_handleWithCustomMethod('GET');
     }

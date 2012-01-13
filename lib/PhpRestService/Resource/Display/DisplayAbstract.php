@@ -32,10 +32,16 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         $data = array();
         if (method_exists($object, 'getId')) {
             $id = $object->getId();
+            $url = $this->getUrl();
+            if (!preg_match('/http:\/\//', $url)) {
+                $url = 'http://' . $_SERVER['SERVER_NAME'] . $url;
+            }
+
             if (isset($id)) {
+                $url .= '/' . $id;
                 $data = array (
                     'id' => $object->getId(),
-                    'url' => 'http://' . $_SERVER['SERVER_NAME'] . $this->getUrl() . '/' . $object->getId(),
+                    'url' => $url,
                 );
             }
         }
@@ -53,6 +59,10 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         }
 
         return $data;
+    }
+
+    public function dataExtended($object) {
+        return array();
     }
 
     public function displayCollection($objects, $extended = false) {
@@ -74,6 +84,11 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
             $display->setUrl($url);
         }
         foreach($objects as $object) {
+            // Verify that these objects are indeed objects!
+            if (!is_object($object)) {
+                continue;
+            }
+
             $dataBasic = $display->dataBasic($object);
             $dataUrl = (!is_null($url)) ? $display->dataUrl($object) : array();
             $data[] = array_merge($dataUrl, $dataBasic);
