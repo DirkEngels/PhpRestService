@@ -306,7 +306,7 @@ class Factory {
 
         switch($objectType) {
             case 'auth':
-                return new \PhpRestService\Resource\Auth\Basic();
+                return new \PhpRestService\Resource\Auth\Digest();
             case 'collection':
                 return new \PhpRestService\Resource\Data\Collection();
             case 'item':
