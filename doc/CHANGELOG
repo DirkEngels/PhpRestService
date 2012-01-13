@@ -24,10 +24,13 @@ Version 1.0 (roadmap)
 
 Version 0.4.3 (planned)
 -----------------------
-- Authorization
-    - None
-    - Basic
-    - Digest
++ Authorization
+    + None
+    + Basic
+    + Digest
+- Authentification configuration
+    - Global configuration
+    - Resource specific configuration
 
 
 Version 0.4.2 (13-01-2012)
