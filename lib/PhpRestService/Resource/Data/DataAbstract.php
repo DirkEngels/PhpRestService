@@ -5,6 +5,15 @@ use \PhpRestService\Resource\Component;
 
 abstract class DataAbstract extends Component\ComponentAbstract {
 
+    protected function _getId() {
+        $urlPieces = explode('/', $_SERVER['REQUEST_URI']);
+        $id = NULL;
+        if (count($urlPieces)>2) {
+            $id = $urlPieces[2];
+        }
+        return $id;
+    }
+
     public function head() {
         throw new \Exception('HTTP Method not implemented', 404);
     }
