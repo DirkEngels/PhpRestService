@@ -103,11 +103,32 @@ class Config {
         $value = NULL;
         $source = NULL;
 
-        // Service option
+        // Service resource option
+        if (!is_null($taskName)) {
+            try {
+                $taskConfigName = strtolower(preg_replace('#\\\\#', '-', $taskName));
+                $value = $this->_getRecursiveKey('service.'. $taskConfigName . '.' . $option);
+                $source = 'resource';
+            } catch (\Exception $e) {
+                Logger::log('CONFIG: SERVICE ' . $e->getMessage(), \Zend_Log::DEBUG);
+            }
+        }
+
+        // Service default option
         if (is_null($source)) {
             try {
-                $value = $this->_getRecursiveKey('service.' . $option);
-                $source = 'service';
+                $value = $this->_getRecursiveKey('service.default.'. $option);
+                $source = 'default';
+            } catch (\Exception $e) {
+                Logger::log('CONFIG: SERVICE ' . $e->getMessage(), \Zend_Log::DEBUG);
+            }
+        }
+
+        // Service global option
+        if (is_null($source)) {
+            try {
+                $value = $this->_getRecursiveKey('service.'. $option);
+                $source = 'global';
             } catch (\Exception $e) {
                 Logger::log('CONFIG: SERVICE ' . $e->getMessage(), \Zend_Log::DEBUG);
             }

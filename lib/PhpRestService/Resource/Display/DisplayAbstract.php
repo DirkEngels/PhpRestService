@@ -10,33 +10,39 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
 
     public function getUrl() {
         if (is_null($this->_url)) {
-            $this->_url = $_SERVER['REQUEST_URI'];
+            $this->setUrl('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         }
         return $this->_url;
         
     }
 
     public function setUrl($url) {
-        if (!preg_match('/^http:\/\//', $url)) {
-            $url = 'http://' . $url;
-        }
+        // Strip last slash
         if (substr($url, -1) == '/') {
             $url = substr($url, 0, strlen($url)-1);
+        }
+        // Verify absolute path
+        if (substr($url, 0, 1) == '/') {
+            $url = $_SERVER['HTTP_HOST'] . $url;
+        }
+        // Verify begins with http://
+        if (!preg_match('/^http:\/\//', $url)) {
+            $url = 'http://' . $url;
         }
 
         $this->_url = $url;
         return $this;
     }
 
-    public function dataUrl($object) {
+    public function dataUrl($object, $url = NULL) {
+        if (!is_null($url)) {
+            $this->setUrl($url);
+        }
+        $url = $this->getUrl();
+
         $data = array();
         if (method_exists($object, 'getId')) {
             $id = $object->getId();
-            $url = $this->getUrl();
-            if (!preg_match('/http:\/\//', $url)) {
-                $url = 'http://' . $_SERVER['SERVER_NAME'] . $url;
-            }
-
             if (isset($id)) {
                 $url .= '/' . $id;
                 $data = array (

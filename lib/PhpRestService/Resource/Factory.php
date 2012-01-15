@@ -246,7 +246,7 @@ class Factory {
 
         $configType = ucfirst(
             \PhpRestService\Config::get()->getOptionValue(
-                strtolower($objectType) . '.default', 
+                strtolower($objectType) . '.type', 
                 $resourceName
             )
         );
@@ -256,12 +256,11 @@ class Factory {
         );
 
         $objectClassName = self::_getObjectConfigNamespace($objectType) . '\\' . $configType;
-
-//        $msg = 'FACTORY: Testing class (' . $resourceName . '): ' . $objectClassName;
+        $msg = 'FACTORY: Trying ' . $objectType . ' config class: ' . $objectClassName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
-
+        
         if (class_exists($objectClassName, true)) {
-            $msg = 'FACTORY: Found ' . $objectType . ' config component: ' . $resourceName;
+            $msg = 'FACTORY: Found ' . $objectType . ' config component: ' . $objectClassName;
             \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             $object = new $objectClassName();
             return $object;
@@ -274,6 +273,9 @@ class Factory {
     protected static function _getObjectConfigNamespace($objectType) {
         $nameSpace = '\\PhpRestService\\Resource\\';
         switch($objectType) {
+            case 'auth':
+                $nameSpace .= 'Auth';
+                break;
             case 'collection':
                 $nameSpace .= 'Data';
                 break;
@@ -306,7 +308,7 @@ class Factory {
 
         switch($objectType) {
             case 'auth':
-                return new \PhpRestService\Resource\Auth\Digest();
+                return new \PhpRestService\Resource\Auth\None();
             case 'collection':
                 return new \PhpRestService\Resource\Data\Collection();
             case 'item':
