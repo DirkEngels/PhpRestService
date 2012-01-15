@@ -2,12 +2,12 @@
 namespace PhpRestService\Resource;
 
 class Factory {
-    const TYPE_MANAGER = 'manager';
-
-    const TYPE_COLLECTION = 'collection';
-    const TYPE_ITEM = 'item';
-    const TYPE_DISPLAY = 'display';
-    const TYPE_FORMAT = 'format';
+    const TYPE_MANAGER          = 'manager';
+    const TYPE_AUTH             = 'auth';
+    const TYPE_COLLECTION       = 'collection';
+    const TYPE_ITEM             = 'item';
+    const TYPE_DISPLAY          = 'display';
+    const TYPE_FORMAT           = 'format';
 
     /**
      * Instantiates a new Manager object and injects all needed components 
@@ -23,7 +23,12 @@ class Factory {
         // Base Manager
         $manager = self::getManager($resourceName);
 
-        // Data
+        // Auth component
+        $manager->setAuth(
+            self::getAuth($resourceName, $resourceKey)
+        );
+
+        // Data components
         $manager->setCollection(
             self::getDataCollection($resourceName)
         );
@@ -31,12 +36,12 @@ class Factory {
             self::getDataItem($resourceName, $resourceKey)
         );
 
-        // Display
+        // Display component
         $manager->setDisplay(
             self::getDisplay($resourceName, $resourceKey)
         );
 
-        // Format
+        // Format component
         $manager->setFormat(
             self::getFormat($resourceName)
         );
@@ -87,6 +92,20 @@ class Factory {
         $manager = self::getComponentType($resourceName, self::TYPE_MANAGER);
         $manager->setName($resourceName);
         return $manager;
+    }
+
+
+    /**
+     * Returns the auth component for the specified resource
+     * @param string $resourceName
+     * @return \PhpRestService\Resource\Auth\AuthAbstract
+     */
+    public static function getAuth($resourceName, $id = NULL) {
+        $display = self::getComponentType($resourceName, self::TYPE_AUTH);
+        if (!is_null($id)) {
+            $display->setId($id);
+        }
+        return $display;
     }
 
 
@@ -227,7 +246,7 @@ class Factory {
 
         $configType = ucfirst(
             \PhpRestService\Config::get()->getOptionValue(
-                strtolower($objectType) . '.default', 
+                strtolower($objectType) . '.type', 
                 $resourceName
             )
         );
@@ -237,12 +256,11 @@ class Factory {
         );
 
         $objectClassName = self::_getObjectConfigNamespace($objectType) . '\\' . $configType;
-
-//        $msg = 'FACTORY: Testing class (' . $resourceName . '): ' . $objectClassName;
+        $msg = 'FACTORY: Trying ' . $objectType . ' config class: ' . $objectClassName;
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
-
+        
         if (class_exists($objectClassName, true)) {
-            $msg = 'FACTORY: Found ' . $objectType . ' config component: ' . $resourceName;
+            $msg = 'FACTORY: Found ' . $objectType . ' config component: ' . $objectClassName;
             \PhpRestService\Logger::log($msg, \Zend_Log::NOTICE);
             $object = new $objectClassName();
             return $object;
@@ -255,6 +273,9 @@ class Factory {
     protected static function _getObjectConfigNamespace($objectType) {
         $nameSpace = '\\PhpRestService\\Resource\\';
         switch($objectType) {
+            case 'auth':
+                $nameSpace .= 'Auth';
+                break;
             case 'collection':
                 $nameSpace .= 'Data';
                 break;
@@ -286,6 +307,8 @@ class Factory {
         \PhpRestService\Logger::log($msg, \Zend_Log::DEBUG);
 
         switch($objectType) {
+            case 'auth':
+                return new \PhpRestService\Resource\Auth\None();
             case 'collection':
                 return new \PhpRestService\Resource\Data\Collection();
             case 'item':
