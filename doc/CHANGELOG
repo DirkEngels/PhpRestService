@@ -28,9 +28,9 @@ Version 0.4.3 (planned)
     + None
     + Basic
     + Digest
-- Authentification configuration
-    - Global configuration
-    - Resource specific configuration
++ Authentification configuration
+    + Global configuration
+    + Resource specific configuration
 
 
 Version 0.4.2 (13-01-2012)
