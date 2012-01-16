@@ -1,6 +1,8 @@
 <?php
 
 namespace PhpRestService\Resource\Display;
+use PhpRestService\Config;
+
 use \PhpRestService\Resource\Component;
 use \PhpRestService\Logger;
 
