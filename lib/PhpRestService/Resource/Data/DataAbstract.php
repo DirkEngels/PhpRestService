@@ -19,7 +19,9 @@ abstract class DataAbstract extends Component\ComponentAbstract {
     }
 
     public function options() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        header('Allow: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+        header('Public: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+        throw new \Exception('HTTP Method implemented?', 200);
     }
 
     public function get() {

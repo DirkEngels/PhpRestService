@@ -70,6 +70,10 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
     }
 
     public function handle($id = NULL) {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: x-requested-with");
+        header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE,HEAD");
+
         if (!is_null($id)) {
             $this->setId($id);
         }
