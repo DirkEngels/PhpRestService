@@ -60,10 +60,12 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         // Basic data
         $data = $this->dataBasic($object);
 
-        if ($extended) {
-            $data = array_merge($data, $this->dataExtended($object));
-        } else {
-            $data = array_merge($data, $this->dataUrl($object));
+        if (is_array($data)) {
+            if ($extended) {
+                $data = array_merge($data, $this->dataExtended($object));
+            } else {
+                $data = array_merge($data, $this->dataUrl($object));
+            }
         }
 
         return $data;
