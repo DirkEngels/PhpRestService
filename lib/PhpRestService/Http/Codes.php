@@ -60,6 +60,9 @@ class Codes {
         if (!in_array($code, self::$_codes)) {
             $code = 500;
         }
+        if (!isset(self::$_codes[$code])) {
+            $code = 500;
+        }
 
         return self::$_codes[$code];
     }
