@@ -27,49 +27,49 @@ class DataAbstractTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandleHeadMethod() {
         $this->_handleWithCustomMethod('HEAD');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandleOptionsMethod() {
         $this->_handleWithCustomMethod('OPTIONS');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandleGetMethod() {
         $this->_handleWithCustomMethod('GET');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandlePostMethod() {
         $this->_handleWithCustomMethod('POST');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandlePutMethod() {
         $this->_handleWithCustomMethod('PUT');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandleDeleteMethod() {
         $this->_handleWithCustomMethod('DELETE');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedInvalidArgumentException \InvalidArgumentException
      */
     public function testHandleUnsupportedMethod() {
         $this->_handleWithCustomMethod('UNKNOWN');
