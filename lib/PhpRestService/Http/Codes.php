@@ -57,10 +57,12 @@ class Codes {
 
     public static function get($code) {
         // Default code
-        if (!in_array($code, self::$_codes)) {
+        if ( ! in_array( $code, array_keys( self::$_codes ) ) ) {
             $code = 500;
         }
-        if (!isset(self::$_codes[$code])) {
+
+        // Check if it has a value
+        if ( ! isset( self::$_codes[$code] ) ) {
             $code = 500;
         }
 
