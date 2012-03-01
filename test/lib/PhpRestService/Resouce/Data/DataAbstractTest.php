@@ -27,54 +27,58 @@ class DataAbstractTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandleHeadMethod() {
         $this->_handleWithCustomMethod('HEAD');
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandleOptionsMethod() {
         $this->_handleWithCustomMethod('OPTIONS');
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandleGetMethod() {
         $this->_handleWithCustomMethod('GET');
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandlePostMethod() {
         $this->_handleWithCustomMethod('POST');
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandlePutMethod() {
         $this->_handleWithCustomMethod('PUT');
     }
 
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandleDeleteMethod() {
         $this->_handleWithCustomMethod('DELETE');
     }
 
+
     /**
-     * @expectedInvalidArgumentException \InvalidArgumentException
+     * @expectedException \BadMethodCallException
      */
     public function testHandleUnsupportedMethod() {
         $this->_handleWithCustomMethod('UNKNOWN');
     }
 
+    /**
+     * @expectedException \BadMethodCallException
+     */
     protected function _handleWithCustomMethod($method = 'GET') {
         // Override server method
         $_SERVER['REQUEST_METHOD'] = $method;

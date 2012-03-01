@@ -15,35 +15,37 @@ abstract class DataAbstract extends Component\ComponentAbstract {
     }
 
     public function head() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function options() {
-        header('Allow: GET,POST,PUT,DELETE,OPTIONS,HEAD');
-        header('Public: GET,POST,PUT,DELETE,OPTIONS,HEAD');
-        throw new \Exception('HTTP Method implemented?', 200);
+        /**
+         * header('Allow: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+         * header('Public: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+         **/
+        throw new \BadMethodCallException('HTTP Method implemented?', 200);
     }
 
     public function get() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function post() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function put() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function delete() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function handle() {
         $method = $_SERVER['REQUEST_METHOD'];
         if (!method_exists($this, $method)) {
-            throw new \Exception('Unsupported http method!', 501);
+            throw new \BadMethodCallException('Unsupported http method!', 501);
         }
         return $this->$method();
     }
