@@ -12,12 +12,15 @@ Version 1.0 (roadmap)
 
 Version 0.4.4 (planned)
 -----------------------
-- Implement HTTP methods
-    - POST
-    - PUT
-    - DELETE
-- Add resource loader class
- 
+- Add application bootstrap
++ Add custom exceptions
+- Fix resource autoloader
+- Move directories
+    - /test -> /tests
+    - /app/etc -> /etc
+    - /app/tmp -> /tmp
+    - /app/logs -> /log 
+
 
 Version 0.4.3 (15-01-2012)
 ==========================
