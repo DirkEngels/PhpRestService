@@ -2,7 +2,7 @@
 
 namespace PhpRestService\Http;
 
-class Codes {
+class Code {
 
     protected static $_codes = array(
         // Informational 1xx
