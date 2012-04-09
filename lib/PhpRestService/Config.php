@@ -38,8 +38,8 @@ class Config {
     protected function __construct($configFiles = array()) {
         if (count($configFiles) == 0) {
             // Add default configuration
-            array_unshift($configFiles, realpath(\APPLICATION_PATH . '/etc/app.ini'));
-            array_unshift($configFiles, realpath(\APPLICATION_PATH . '/etc/service.ini'));
+            array_unshift($configFiles, realpath(\PROJECT_ROOT . '/etc/app.ini'));
+            array_unshift($configFiles, realpath(\PROJECT_ROOT . '/etc/service.ini'));
         }
 
         $this->_initConfig($configFiles);

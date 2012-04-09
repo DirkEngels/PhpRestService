@@ -15,9 +15,11 @@ class Service extends ApplicationAbstract implements ApplicationInterface {
         $resourceManager = \PhpRestService\Resource\Factory::get(
             $router->getResourceName()
         );
+
         if (!is_null($router->getResourceKey())) {
             $resourceManager->setId($router->getResourceKey());
         }
+
         // Set arguments
         $arguments = $router->getArguments();
         foreach($arguments as $argument => $value) {

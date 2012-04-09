@@ -8,12 +8,12 @@
  *
  * @group PhpRestService
  * @group PhpRestService-Http
- * @group PhpRestService-Http-Codes
+ * @group PhpRestService-Http-Code
  */
 
 namespace PhpRestService\Http;
 
-class CodesTest extends \PHPUnit_Framework_TestCase {
+class CodeTest extends \PHPUnit_Framework_TestCase {
 
     protected function setUp() {
     }
@@ -26,7 +26,7 @@ class CodesTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetInvalidCode() {
         $this->assertEquals(
-            \PhpRestService\Http\Codes::get( '666' ),
+            \PhpRestService\Http\Code::get( '666' ),
             'Internal Server Error'
         );
     }
@@ -37,7 +37,7 @@ class CodesTest extends \PHPUnit_Framework_TestCase {
     public function testGetValidCode($code, $message) {
         $this->assertEquals(
             $message,
-            \PhpRestService\Http\Codes::get( $code )
+            \PhpRestService\Http\Code::get( $code )
         );
     }
 

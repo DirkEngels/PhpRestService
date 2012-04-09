@@ -75,6 +75,7 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
         header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE,HEAD");
 
         if (!is_null($id)) {
+            Logger::get()->log( 'Setting resource ID: ' . $idd, \Zend_Log::DEBUG);
             $this->setId($id);
         }
 
@@ -106,6 +107,7 @@ abstract class ManagerAbstract extends Component\ComponentAbstract {
             $this->setDisplay(
                 new \PhpRestService\Resource\Display\Exception()
             );
+            Logger::get()->log( 'Cought exception: ' . $exception->getMessage(), \Zend_Log::DEBUG);
             $displayData = $this->_handleDisplay($exception);
             $this->getResponse()->setCode($exception->getCode());
         }
