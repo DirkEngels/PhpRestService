@@ -18,35 +18,47 @@ class Resource extends RouterAbstract {
         $validPieces = array();
 
         $path = parse_url($this->_url, \PHP_URL_PATH);
+//         $path = (substr($path, 0, 1) == '/' ) ? substr($path, 1) : $path;
         $pathPieces = explode('/', $path);
+//         array_push($pathPieces, '');
         $basePath = \APPLICATION_PATH . '/service/';
 
         \PhpRestService\Logger::get()->log('Counted ' . count($pathPieces) . ' url path pieces', \Zend_Log::DEBUG);
         for ($i = 0; $i<count($pathPieces); $i++) {
-            if (preg_match('/([0-9]+)/', $pathPieces[$i])) {
-                if ($i>0) {
-                    $this->_arguments[$pathPieces[$i-1]] = $pathPieces[$i];
-                }
-                $this->_resourceKey = $pathPieces[$i];
-                continue;
-            } else {
+            \PhpRestService\Logger::get()->log('- Found: ' . $pathPieces[$i] , \Zend_Log::DEBUG);
+
+            if (is_null($pathPieces[$i]) || $pathPieces[$i] == '') {
                 $this->_resourceKey = NULL;
-            }
-            if ($pathPieces[$i] == '') {
                 continue;
             }
 
-            $filename = $basePath . strtolower(implode('/', $validPieces)) . '/' . strtolower($pathPieces[$i]);
+            if (preg_match('/[a-zA-Z0-9]+/', $pathPieces[$i])) {
+                if ($i>=0 && $pathPieces[$i-1] != '') {
+                    \PhpRestService\Logger::get()->log('- Set ' . $pathPieces[$i-1] . ' => ' . $pathPieces[$i] , \Zend_Log::DEBUG);
+                    $this->_arguments[$pathPieces[$i-1]] = $pathPieces[$i];
+
+                    // Set Key
+                    $this->_resourceKey = $pathPieces[$i];
+                }
+            } else {
+                // Reset key
+                $this->_resourceKey = NULL;
+            }
+
+            $filename = strtolower(implode('/', $validPieces)) . '/' . strtolower($pathPieces[$i]);
             \PhpRestService\Logger::get()->log('Testing resource dirname: ' . $filename, \Zend_Log::INFO);
-            if (file_exists($filename)) {
+            if (file_exists($basePath . $filename)) {
                 \PhpRestService\Logger::get()->log('Found! Add valid piece: ' . ucfirst($pathPieces[$i]), \Zend_Log::INFO);
                 array_push($validPieces, ucfirst($pathPieces[$i]));
+                $this->_resourceKey = NULL;
             }
+
         }
 
         if (count($validPieces)) {
             $resourceName = implode('\\', $validPieces);
         }
+
         $this->_resourceName = $resourceName;
         return $resourceName;
     }
