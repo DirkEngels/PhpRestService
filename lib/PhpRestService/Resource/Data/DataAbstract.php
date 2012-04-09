@@ -5,11 +5,24 @@ use \PhpRestService\Resource\Component;
 
 abstract class DataAbstract extends Component\ComponentAbstract {
 
-    protected function _getId() {
+    const KEY_FIELD = 2;
+
+    protected function getParam( $key ) {
+        $value = ( isset( $_REQUEST[ $key ] ) ) ? $_REQUEST[ $key ] : '';
+        return $value;
+    }
+
+    protected function _getId( $keyField = NULL ) {
         $urlPieces = explode('/', $_SERVER['REQUEST_URI']);
         $id = NULL;
-        if (count($urlPieces)>2) {
-            $id = $urlPieces[2];
+
+        if ( ! isset($keyField) ) {
+            $class = get_called_class();
+            $keyField = $class::KEY_FIELD;
+        }
+
+        if (count($urlPieces) > $keyField ) {
+            $id = $urlPieces[ $keyField ];
         }
         return $id;
     }

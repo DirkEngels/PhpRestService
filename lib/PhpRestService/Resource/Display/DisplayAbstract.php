@@ -42,6 +42,11 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         }
         $url = $this->getUrl();
 
+        // Remove everything after the '?'.
+        if ( strpos( $url , '?' ) ) {
+            $url = substr( $url, 0, strpos( $url , '?' ) );
+        }
+
         $data = array();
         if (method_exists($object, 'getId')) {
             $id = $object->getId();
@@ -56,14 +61,16 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return $data;
     }
 
-    public function displayItem($object, $extended = false) {
+    public function displayItem($object, $extended = false, $url = true) {
         // Basic data
         $data = $this->dataBasic($object);
 
         if (is_array($data)) {
             if ($extended) {
                 $data = array_merge($data, $this->dataExtended($object));
-            } else {
+            }
+
+            if ($url) {
                 $data = array_merge($data, $this->dataUrl($object));
             }
         }
@@ -75,12 +82,21 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return array();
     }
 
-    public function displayCollection($objects, $extended = false) {
+    public function displayCollection($objects, $extended = false, $url = NULL) {
         $data = array();
-        if (is_array($objects)) {
+
+        if ( is_array($objects) || get_class($objects) == 'Doctrine\ORM\PersistentCollection') {
             foreach($objects as $object) {
-                $data[] = $this->displayItem($object, $extended);
+                if (method_exists($object, 'getId')) {
+                    $msg = "Displaying item: " . get_class($object) . ' => ' . $object->getId();
+                    Logger::log( $msg, \Zend_Log::DEBUG );
+                }
+
+                array_push($data, $this->displayItem($object, $extended, $url) );
+
             }
+        } elseif ( is_object( $objects ) ) {
+            $data = $this->displayItem( $objects );
         } else {
             Logger::log("Error display items", \Zend_Log::DEBUG);
         }
@@ -117,4 +133,11 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return $display;
     }
 
+    protected function _isObject( $object ) {
+        if (!is_object($object)) {
+            throw new \Exception('Display input is not an object!', 404);
+        }
+    }
+
 }
+

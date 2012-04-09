@@ -321,7 +321,7 @@ class Factory {
             default:
                 return new \PhpRestService\Resource\Manager\ManagerDefault();
         }
-        throw new Exception\UndefinedObjectType('Unknown object type: ' . $objectType);
+        throw new \Exception\UndefinedObjectType('Unknown object type: ' . $objectType);
 
         return NULL;
     }
