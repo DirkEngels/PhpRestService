@@ -19,6 +19,7 @@ class Resource extends RouterAbstract {
 
         $path = parse_url($this->_url, \PHP_URL_PATH);
 //         $path = (substr($path, 0, 1) == '/' ) ? substr($path, 1) : $path;
+        $path = (substr($path, -1) == '/' ) ? substr($path, 0, -1) : $path;
         $pathPieces = explode('/', $path);
 //         array_push($pathPieces, '');
         $basePath = \APPLICATION_PATH . '/service/';
