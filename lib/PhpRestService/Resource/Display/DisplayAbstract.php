@@ -44,6 +44,10 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
     }
 
     public function dataUrl($object, $url = NULL) {
+        if ( ! isset($_REQUEST['link'] ) ) {
+            return array();
+        }
+
         if (!is_null($url)) {
             $this->setUrl($url);
         }
@@ -79,6 +83,9 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         // Basic data
         $data = $this->dataBasic($object);
 
+        if (isset($_REQUEST['link']) && ($_REQUEST['link'] == 1)) {
+        	$url = TRUE;
+        }
         if (is_array($data)) {
             if ($extended) {
                 $data = array_merge($data, $this->dataExtended($object));
@@ -101,10 +108,12 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
 
         if ( is_array($objects) || get_class($objects) == 'Doctrine\ORM\PersistentCollection') {
             foreach($objects as $key => $object) {
-                if ( ! method_exists($object, 'getId')) {
-                    $msg = "Displaying item: " . get_class($object) . ' without ID';
+                if ( ! is_object( $object ) ) {
+                    $msg = "Displaying array: " . gettype($object) . ' without ID';
+                } elseif ( method_exists($object, 'getId')) {
+                    $msg = "Displaying object: " . get_class($object) . ' => ' . $object->getId();
                 } else {
-                    $msg = "Displaying item: " . get_class($object) . ' => ' . $object->getId();
+                    $msg = "Displaying object: " . get_class($object) . ' without ID';
                 }
                 Logger::log( $msg, \Zend_Log::DEBUG );
 
@@ -142,8 +151,8 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
     }
 
 
-    public function dataMeta( $object ) {
-        return ( $_REQUEST['meta'] == 1 ) ? $this->dataMeta() : array();
+    public function dataMeta() {
+        return ( isset( $_REQUEST['meta'] ) ) ? $this->dataMeta() : array();
     }
 
 
