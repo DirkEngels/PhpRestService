@@ -41,7 +41,7 @@ class ApplicationAbstract {
         $logFile = \PhpRestService\Config::get()->getOptionValue('log.file');
 
         if (substr($logFile, 0, 1)!='/') {
-            $logFile = realpath(\PROJECT_ROOT) . '/' . $logFile;
+            $logFile = \PROJECT_ROOT . '/' . $logFile;
         }
 
         // Create logfile if not exists
