@@ -9,14 +9,19 @@ Version 1.0 (roadmap)
 - Implement attribute validators
 - Add regex routing (config routes)
 
-
-Version 0.4.4 (planned)
+Version 0.4.5 (planned)
 -----------------------
-- Add application bootstrap
-+ Add custom exceptions
 - Fix resource autoloader
+  - Load multi class files
 - Move directories
     - /test -> /tests
+
+
+Version 0.4.4 (04-06-2012)
+==========================
++ Add application bootstrap
++ Add custom exceptions
++ Move directories
     - /app/etc -> /etc
     - /app/tmp -> /tmp
     - /app/logs -> /log 
