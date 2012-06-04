@@ -27,54 +27,58 @@ class DataAbstractTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandleHeadMethod() {
         $this->_handleWithCustomMethod('HEAD');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandleOptionsMethod() {
         $this->_handleWithCustomMethod('OPTIONS');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandleGetMethod() {
         $this->_handleWithCustomMethod('GET');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandlePostMethod() {
         $this->_handleWithCustomMethod('POST');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandlePutMethod() {
         $this->_handleWithCustomMethod('PUT');
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandleDeleteMethod() {
         $this->_handleWithCustomMethod('DELETE');
     }
 
+
     /**
-     * @expectedException \Exception
+     * @expectedException \BadMethodCallException
      */
     public function testHandleUnsupportedMethod() {
         $this->_handleWithCustomMethod('UNKNOWN');
     }
 
+    /**
+     * @expectedException \BadMethodCallException
+     */
     protected function _handleWithCustomMethod($method = 'GET') {
         // Override server method
         $_SERVER['REQUEST_METHOD'] = $method;

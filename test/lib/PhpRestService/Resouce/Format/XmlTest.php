@@ -25,7 +25,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \PhpRestService\Exception\NotYetImplemented
      */
     public function testParseEmpty() {
         $input = '';

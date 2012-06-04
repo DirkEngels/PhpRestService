@@ -110,7 +110,8 @@ class Factory {
 
 
     /**
-     * Returns the manager data collection for the specified resource
+     * Returns the manager data collection for the specified resource.
+     * 
      * @param string $resourceName
      * @return \PhpRestService\Resource\Data\DataAbstract
      */
@@ -119,7 +120,8 @@ class Factory {
     }
 
     /**
-     * Returns the manager data item for the specified resource
+     * Returns the manager data item for the specified resource.
+     * 
      * @param string $resourceName
      * @return \PhpRestService\Resource\Data\DataAbstract
      */
@@ -132,7 +134,8 @@ class Factory {
     }
 
     /**
-     * Returns the manager timer for the specified resource
+     * Returns the manager timer for the specified resource.
+     * 
      * @param string $resourceName
      * @return \PhpRestService\Resource\Display\DisplayAbstract
      */
@@ -146,7 +149,8 @@ class Factory {
 
 
     /**
-     * Returns the manager timer for the specified resource
+     * Returns the manager timer for the specified resource.
+     * 
      * @param string $resourceName
      * @return \PhpRestService\Resource\Format\FormatAbstract
      */
@@ -156,7 +160,8 @@ class Factory {
 
 
     /**
-     * Returns the classname based on the resourceName and objectType
+     * Returns the classname based on the resourceName and objectType.
+     * 
      * @param string $resourceName
      * @param string $objectType
      * @return string
@@ -204,6 +209,7 @@ class Factory {
 
     /**
      * Returns the config name based on the resource name.
+     * 
      * @param unknown_type $objectType
      */
     protected static function _getConfigName($resourceName) {
@@ -212,7 +218,8 @@ class Factory {
 
 
     /**
-     * Checks if a objectType class of a specific manager exists
+     * Checks if a objectType class of a specific manager exists.
+     * 
      * @param string $resourceName
      * @param string $objectType
      * @return null|stdClass
@@ -236,6 +243,7 @@ class Factory {
     /**
      * Checks if resource specific configuration options for the objectType are
      * set.
+     * 
      * @param string $resourceName
      * @param string $objectType
      * @return null|stdClass
@@ -299,6 +307,7 @@ class Factory {
 
     /**
      * Returns the hardcoded default object for a specific type.
+     * 
      * @param string $objectType
      * @return null|StdClass
      */
@@ -321,7 +330,7 @@ class Factory {
             default:
                 return new \PhpRestService\Resource\Manager\ManagerDefault();
         }
-        throw new Exception\UndefinedObjectType('Unknown object type: ' . $objectType);
+        throw new \Exception\UndefinedObjectType('Unknown object type: ' . $objectType);
 
         return NULL;
     }

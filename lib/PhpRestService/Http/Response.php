@@ -51,7 +51,7 @@ class Response {
 
     public function send() {
         // Set Code
-        Header('HTTP/1.0 ' . $this->getCode() . Codes::get($this->getCode()));
+        Header('HTTP/1.0 ' . $this->getCode() . Code::get($this->getCode()));
 
         // Set Headers
         foreach($this->getHeaders() as $name => $value) {
@@ -61,4 +61,6 @@ class Response {
         // Show Body
         echo $this->getBody();
     }
+
 }
+

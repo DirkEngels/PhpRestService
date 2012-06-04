@@ -5,7 +5,7 @@ namespace PhpRestService\Resource\Format;
 class Xml extends FormatAbstract implements FormatInterface {
 
     public function parse($string) {
-        throw new \Exception('No XML input parsing implemented yet!');
+        throw new \PhpRestService\Exception\NotYetImplemented('No XML input parsing implemented yet!');
     }
 
     public function render($data) {

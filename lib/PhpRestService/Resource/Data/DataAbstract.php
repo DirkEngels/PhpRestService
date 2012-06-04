@@ -1,47 +1,72 @@
 <?php
 
 namespace PhpRestService\Resource\Data;
+
+use \PhpRestService\Logger;
 use \PhpRestService\Resource\Component;
 
 abstract class DataAbstract extends Component\ComponentAbstract {
 
-    protected function _getId() {
+    const KEY_FIELD = 2;
+
+    protected function getParam( $key ) {
+        $value = ( isset( $_REQUEST[ $key ] ) ) ? $_REQUEST[ $key ] : '';
+        Logger::get()->log( 'returning param: ' . $key . ' => ' . $value, \Zend_Log::DEBUG );
+        return $value;
+    }
+
+    protected function getUrlParam( $key ) {
+        $url = substr( $_SERVER["REQUEST_URI"], 1 );
+        $pieces = explode( '/', $url);
+        return ( isset( $pieces[ $key ] ) ) ? $pieces[ $key ] : NULL;
+    }
+    protected function _getId( $keyField = NULL ) {
         $urlPieces = explode('/', $_SERVER['REQUEST_URI']);
         $id = NULL;
-        if (count($urlPieces)>2) {
-            $id = $urlPieces[2];
+
+        if ( ! isset($keyField) ) {
+            $class = get_called_class();
+            $keyField = $class::KEY_FIELD;
+        }
+
+        if (count($urlPieces) > $keyField ) {
+            $id = $urlPieces[ $keyField ];
         }
         return $id;
     }
 
     public function head() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function options() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        /**
+         * header('Allow: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+         * header('Public: GET,POST,PUT,DELETE,OPTIONS,HEAD');
+         **/
+        throw new \BadMethodCallException('HTTP Method implemented?', 200);
     }
 
     public function get() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function post() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function put() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function delete() {
-        throw new \Exception('HTTP Method not implemented', 404);
+        throw new \BadMethodCallException('HTTP Method not implemented', 404);
     }
 
     public function handle() {
         $method = $_SERVER['REQUEST_METHOD'];
         if (!method_exists($this, $method)) {
-            throw new \Exception('Unsupported http method!', 501);
+            throw new \BadMethodCallException('Unsupported http method!', 501);
         }
         return $this->$method();
     }

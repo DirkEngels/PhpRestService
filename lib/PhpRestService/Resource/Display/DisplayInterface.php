@@ -9,7 +9,7 @@ interface DisplayInterface extends Component\ComponentInterface {
     public function dataBasic($object);
     public function dataExtended($object);
 
-    public function displayItem($object);
-    public function displayCollection($objects);
+    public function displayItem($object, $extended, $url);
+    public function displayCollection($objects, $extended, $url);
 
 }

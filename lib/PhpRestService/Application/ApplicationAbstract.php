@@ -39,6 +39,7 @@ class ApplicationAbstract {
      */
     protected function _initLogFile() {
         $logFile = \PhpRestService\Config::get()->getOptionValue('log.file');
+
         if (substr($logFile, 0, 1)!='/') {
             $logFile = \PROJECT_ROOT . '/' . $logFile;
         }

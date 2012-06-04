@@ -1,14 +1,23 @@
 <?php
 
 namespace PhpRestService\Resource\Display;
+
+use PhpRestService\Config;
+
 use \PhpRestService\Resource\Component;
 use \PhpRestService\Logger;
 
 abstract class DisplayAbstract extends Component\ComponentAbstract {
 
+    const URL = '';
+
     protected $_url;
 
     public function getUrl() {
+        $class = get_class( $this );
+        if ( is_null( $this->_url ) && $class::URL != '' ) {
+            $this->_url = 'http://' . $_SERVER['HTTP_HOST'] . $class::URL;
+        }
         if (is_null($this->_url)) {
             $this->setUrl('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         }
@@ -35,10 +44,19 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
     }
 
     public function dataUrl($object, $url = NULL) {
+        if ( ! isset($_REQUEST['link'] ) ) {
+            return array();
+        }
+
         if (!is_null($url)) {
             $this->setUrl($url);
         }
         $url = $this->getUrl();
+
+        // Remove everything after the '?'.
+        if ( strpos( $url , '?' ) ) {
+            $url = substr( $url, 0, strpos( $url , '?' ) );
+        }
 
         $data = array();
         if (method_exists($object, 'getId')) {
@@ -47,21 +65,35 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
                 $url .= '/' . $id;
                 $data = array (
                     'id' => $object->getId(),
-                    'url' => $url,
+                    'link' => $url,
                 );
             }
         }
         return $data;
     }
 
-    public function displayItem($object, $extended = false) {
+    /**
+     * 
+     * @param Object $object
+     * @param boolena $extended
+     * @param string $url
+     * @return array
+     */
+    public function displayItem($object, $extended = false, $url = true) {
         // Basic data
         $data = $this->dataBasic($object);
 
-        if ($extended) {
-            $data = array_merge($data, $this->dataExtended($object));
-        } else {
-            $data = array_merge($data, $this->dataUrl($object));
+        if (isset($_REQUEST['link']) && ($_REQUEST['link'] == 1)) {
+        	$url = TRUE;
+        }
+        if (is_array($data)) {
+            if ($extended) {
+                $data = array_merge($data, $this->dataExtended($object));
+            }
+
+            if ($url) {
+                $data = array_merge($data, $this->dataUrl($object));
+            }
         }
 
         return $data;
@@ -71,12 +103,28 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return array();
     }
 
-    public function displayCollection($objects, $extended = false) {
+    public function displayCollection($objects, $extended = false, $url = NULL) {
         $data = array();
-        if (is_array($objects)) {
-            foreach($objects as $object) {
-                $data[] = $this->displayItem($object, $extended);
+
+        if ( is_array($objects) || get_class($objects) == 'Doctrine\ORM\PersistentCollection') {
+            foreach($objects as $key => $object) {
+                if ( ! is_object( $object ) ) {
+                    $msg = "Displaying array: " . gettype($object) . ' without ID';
+                } elseif ( method_exists($object, 'getId')) {
+                    $msg = "Displaying object: " . get_class($object) . ' => ' . $object->getId();
+                } else {
+                    $msg = "Displaying object: " . get_class($object) . ' without ID';
+                }
+                Logger::log( $msg, \Zend_Log::DEBUG );
+
+                if ( preg_match( '/[a-zA-Z0-9]+/', $key ) ) {
+                    $data[ $key ] = $this->displayItem($object, $extended, $url);
+                } else {
+                    array_push($data, $this->displayItem($object, $extended, $url) );
+                }
             }
+        } elseif ( is_object( $objects ) ) {
+            $data = $this->displayItem( $objects );
         } else {
             Logger::log("Error display items", \Zend_Log::DEBUG);
         }
@@ -102,7 +150,15 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return $data;
     }
 
+
+    public function dataMeta() {
+        return ( isset( $_REQUEST['meta'] ) ) ? $this->dataMeta() : array();
+    }
+
+
     public function handle($inputData = array(), $extended = NULL) {
+        $display = $this->dataMeta();
+
         if ($this->getId()) {
             $extended = (!is_null($extended)) ? $extended : TRUE;
             $display = $this->displayItem($inputData, $extended);
@@ -113,4 +169,11 @@ abstract class DisplayAbstract extends Component\ComponentAbstract {
         return $display;
     }
 
+    protected function _isObject( $object ) {
+        if (!is_object($object)) {
+            throw new \Exception('Display input is not an object!', 404);
+        }
+    }
+
 }
+
