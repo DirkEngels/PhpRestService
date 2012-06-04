@@ -1,3 +1,4 @@
+.settings
 lib/PhpTaskDaemon
 lib/Doctrine
 lib/Zend
