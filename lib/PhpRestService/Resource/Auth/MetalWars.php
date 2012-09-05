@@ -29,3 +29,4 @@ class MetalWars extends AuthAbstract implements AuthInterface {
     }
 
 }
+
