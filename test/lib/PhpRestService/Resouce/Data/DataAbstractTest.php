@@ -84,4 +84,14 @@ class DataAbstractTest extends \PHPUnit_Framework_TestCase {
         $_SERVER['REQUEST_METHOD'] = $method;
         $this->_component->handle();
     }
+
+    public function testGetParamIsSet() {
+        $_REQUEST['key'] = 'value';
+        $this->assertEquals( 'value', $this->_component->getParam('key') );
+    }
+
+    public function testGetParamNotSet() {
+        $this->assertEquals( '', $this->_component->getParam('key') );
+    }
+
 }
