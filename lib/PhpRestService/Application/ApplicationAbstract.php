@@ -10,6 +10,8 @@ class ApplicationAbstract {
      * - initLogFile
      */
     protected function _init() {
+        \PhpEventLog\Log\Collector::add( new \PhpEventLog\Event\Request() );
+
         // Initialize Configuration
         $this->_initConfig();
 
