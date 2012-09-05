@@ -9,13 +9,13 @@ abstract class DataAbstract extends Component\ComponentAbstract {
 
     const KEY_FIELD = 2;
 
-    protected function getParam( $key ) {
+    public function getParam( $key ) {
         $value = ( isset( $_REQUEST[ $key ] ) ) ? $_REQUEST[ $key ] : '';
         Logger::get()->log( 'returning param: ' . $key . ' => ' . $value, \Zend_Log::DEBUG );
         return $value;
     }
 
-    protected function getUrlParam( $key ) {
+    public function getUrlParam( $key ) {
         $url = substr( $_SERVER["REQUEST_URI"], 1 );
         $pieces = explode( '/', $url);
         return ( isset( $pieces[ $key ] ) ) ? $pieces[ $key ] : NULL;
